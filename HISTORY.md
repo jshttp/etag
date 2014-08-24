@@ -1,5 +1,5 @@
-unreleased
-==========
+1.0.1 / 2014-08-24
+==================
 
   * Fix behavior of string containing Unicode
 
