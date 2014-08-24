@@ -1,0 +1,33 @@
+{
+  "name": "etag",
+  "description": "Create simple ETags",
+  "version": "1.0.0",
+  "contributors": [
+    "Douglas Christopher Wilson <doug@somethingdoug.com>",
+    "David Björklund <david.bjorklund@gmail.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "etag",
+    "http",
+    "res"
+  ],
+  "repository": "jshttp/etag",
+  "devDependencies": {
+    "istanbul": "0.3.0",
+    "mocha": "~1.21.4"
+  },
+  "files": [
+    "LICENSE",
+    "HISTORY.md",
+    "index.js"
+  ],
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "scripts": {
+    "test": "mocha --reporter spec --bail --check-leaks test/",
+    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/",
+    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/"
+  }
+}
