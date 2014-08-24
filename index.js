@@ -27,7 +27,7 @@ var crypto = require('crypto')
 function etag(entity) {
   var hash = crypto
     .createHash('md5')
-    .update(entity)
+    .update(entity, 'utf8')
     .digest('hex')
   return '"' + hash + '"'
 }
