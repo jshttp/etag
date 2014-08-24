@@ -28,6 +28,6 @@ function etag(entity) {
   var hash = crypto
     .createHash('md5')
     .update(entity, 'utf8')
-    .digest('hex')
+    .digest('base64')
   return '"' + hash + '"'
 }

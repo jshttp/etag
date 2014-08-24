@@ -5,17 +5,17 @@ var etag = require('..')
 describe('etag(entity)', function () {
   describe('when "entity" is a string', function () {
     it('should generate an ETag', function () {
-      assert.equal(etag('beep boop'), '"677e121b2436201ed8cc1ec73240a3ad"')
+      assert.equal(etag('beep boop'), '"Z34SGyQ2IB7YzB7HMkCjrQ=="')
     })
 
     it('should work containing Unicode', function () {
-      assert.equal(etag('论'), '"696f4778b4e4d98b7a95fef325812583"')
+      assert.equal(etag('论'), '"aW9HeLTk2Yt6lf7zJYElgw=="')
     })
   })
 
   describe('when "entity" is a Buffer', function () {
     it('should generate an ETag', function () {
-      assert.equal(etag(new Buffer([1, 2, 3])), '"5289df737df57326fcdd22597afb1fac"')
+      assert.equal(etag(new Buffer([1, 2, 3])), '"Uonfc331cyb83SJZevsfrA=="')
     })
   })
 })

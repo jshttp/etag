@@ -1,3 +1,8 @@
+unreleased
+==========
+
+  * Shrink size of generated ETags
+
 1.0.1 / 2014-08-24
 ==================
 
