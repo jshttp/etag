@@ -3,6 +3,10 @@ var assert = require('assert')
 var etag = require('..')
 
 describe('etag(entity)', function () {
+  it('should require an entity', function () {
+    assert.throws(etag.bind(), /argument entity is required/)
+  })
+
   describe('when "entity" is a string', function () {
     it('should generate an ETag', function () {
       assert.equal(etag('beep boop'), '"Z34SGyQ2IB7YzB7HMkCjrQ=="')

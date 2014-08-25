@@ -25,6 +25,10 @@ var crypto = require('crypto')
  */
 
 function etag(entity) {
+  if (entity == null) {
+    throw new TypeError('argument entity is required')
+  }
+
   if (entity.length === 0) {
     // fast-path empty body
     return '"1B2M2Y8AsgTpgAmY7PhCfg=="'
