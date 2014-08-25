@@ -23,7 +23,7 @@ var etag = require('etag')
 ### etag(str)
 
 Generate a strong ETag for the given string. This string should be the
-complete body.
+complete body and is assumed to be UTF-8.
 
 ```js
 res.setHeader('ETag', etag(body))
