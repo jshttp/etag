@@ -1,5 +1,5 @@
-unreleased
-==========
+1.1.0 / 2014-08-24
+==================
 
   * Add fast-path for empty entity
   * Add weak ETag generation
