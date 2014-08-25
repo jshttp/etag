@@ -16,11 +16,18 @@ module.exports = etag
 
 var crc = require('crc').crc32
 var crypto = require('crypto')
+var Stats = require('fs').Stats
+
+/**
+ * Module variables.
+ */
+
+var NULL = new Buffer([0])
 
 /**
  * Create a simple ETag.
  *
- * @param {string|Buffer} entity
+ * @param {string|Buffer|Stats} entity
  * @param {object} [options]
  * @param {boolean} [options.weak]
  * @return {String}
@@ -33,6 +40,14 @@ function etag(entity, options) {
   }
 
   var isBuffer = Buffer.isBuffer(entity)
+  var weak = options && typeof options.weak === 'boolean'
+    ? options.weak
+    : !isBuffer
+
+  // support fs.Stats object
+  if (entity instanceof Stats) {
+    return stattag(entity, weak)
+  }
 
   if (!isBuffer && typeof entity !== 'string') {
     throw new TypeError('argument entity must be string or Buffer')
@@ -41,13 +56,38 @@ function etag(entity, options) {
   var buf = !isBuffer
     ? new Buffer(entity, 'utf8')
     : entity
-  var weak = options && typeof options.weak === 'boolean'
-    ? options.weak
-    : !isBuffer
 
   return weak
     ? 'W/"' + weakhash(buf) + '"'
     : '"' + stronghash(buf) + '"'
+}
+
+/**
+ * Generate a tag for a stat.
+ *
+ * @param {Buffer} entity
+ * @return {String}
+ * @api private
+ */
+
+function stattag(stat, weak) {
+  var mtime = stat.mtime.toISOString()
+  var size = stat.size.toString(16)
+
+  if (weak) {
+    return 'W/"' + size + '-' + crc(mtime) + '"'
+  }
+
+  var hash = crypto
+    .createHash('md5')
+    .update('file', 'utf8')
+    .update(NULL)
+    .update(size, 'utf8')
+    .update(NULL)
+    .update(mtime, 'utf8')
+    .digest('base64')
+
+  return '"' + hash + '"'
 }
 
 /**

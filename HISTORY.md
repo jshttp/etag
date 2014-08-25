@@ -1,3 +1,8 @@
+unreleased
+==========
+
+  * Add support for file stat objects
+
 1.1.0 / 2014-08-24
 ==================
 
