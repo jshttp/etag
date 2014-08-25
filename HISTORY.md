@@ -2,6 +2,7 @@ unreleased
 ==========
 
   * Add fast-path for empty entity
+  * Add weak ETag generation
   * Shrink size of generated ETags
 
 1.0.1 / 2014-08-24

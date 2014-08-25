@@ -20,23 +20,25 @@ $ npm install etag
 var etag = require('etag')
 ```
 
-### etag(str)
+### etag(entity, [options])
 
-Generate a strong ETag for the given string. This string should be the
-complete body and is assumed to be UTF-8.
+Generate a strong ETag for the given entity. This should be the complete
+body of the entity. Both strings are `Buffer`s are accepted. By default,
+a string will generate a weak ETag while a `Buffer` will generate a strong
+ETag (this can be overwritten by `options.weak`).
 
 ```js
 res.setHeader('ETag', etag(body))
 ```
 
-### etag(buf)
+#### Options
 
-Generate a strong ETag for the given `Buffer`. This buffer should be the
-complete body.
+`etag` accepts these properties in the options object.
 
-```js
-res.setHeader('ETag', etag(buf))
-```
+##### weak
+
+Specifies if a "strong" or a "weak" ETag will be generated. The ETag can only
+really be a strong as the given input.
 
 ## Testing
 
