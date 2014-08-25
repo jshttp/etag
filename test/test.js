@@ -7,6 +7,10 @@ describe('etag(entity)', function () {
     assert.throws(etag.bind(), /argument entity is required/)
   })
 
+  it('should reject number entities', function () {
+    assert.throws(etag.bind(null, 4), /argument entity must be/)
+  })
+
   describe('when "entity" is a string', function () {
     it('should generate an ETag', function () {
       assert.equal(etag('beep boop'), '"Z34SGyQ2IB7YzB7HMkCjrQ=="')

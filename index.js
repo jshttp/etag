@@ -29,6 +29,12 @@ function etag(entity) {
     throw new TypeError('argument entity is required')
   }
 
+  var isBuffer = Buffer.isBuffer(entity)
+
+  if (!isBuffer && typeof entity !== 'string') {
+    throw new TypeError('argument entity must be string or Buffer')
+  }
+
   if (entity.length === 0) {
     // fast-path empty body
     return '"1B2M2Y8AsgTpgAmY7PhCfg=="'
