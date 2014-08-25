@@ -25,6 +25,11 @@ var crypto = require('crypto')
  */
 
 function etag(entity) {
+  if (entity.length === 0) {
+    // fast-path empty body
+    return '"1B2M2Y8AsgTpgAmY7PhCfg=="'
+  }
+
   var hash = crypto
     .createHash('md5')
     .update(entity, 'utf8')
