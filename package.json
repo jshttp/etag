@@ -14,7 +14,6 @@
   ],
   "repository": "jshttp/etag",
   "dependencies": {
-    "crc": "2.1.1"
   },
   "devDependencies": {
     "istanbul": "0.3.0",

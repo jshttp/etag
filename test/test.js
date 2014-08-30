@@ -13,16 +13,12 @@ describe('etag(entity)', function () {
   })
 
   describe('when "entity" is a string', function () {
-    it('should generate a weak ETag', function () {
-      assert.equal(etag('beep boop'), 'W/"9-7f3ee715"')
-    })
-
     it('should work containing Unicode', function () {
-      assert.equal(etag('论'), 'W/"3-438093ff"')
+      assert.equal(etag('论'), '"aW9HeLTk2Yt6lf7zJYElgw=="')
     })
 
     it('should work for empty string', function () {
-      assert.equal(etag(''), 'W/"0-0"')
+      assert.equal(etag(''), '"1B2M2Y8AsgTpgAmY7PhCfg=="')
     })
   })
 
@@ -56,18 +52,18 @@ describe('etag(entity)', function () {
         assert.equal(etag(new Buffer([1, 2, 3]), {weak: false}), '"Uonfc331cyb83SJZevsfrA=="')
       })
 
-      it('should generate a strong ETag for fs.Stats', function () {
-        assert.ok(!isweak(etag(fs.statSync(__filename), {weak: false})))
+      it('should generate a weak ETag for fs.Stats', function () {
+        assert.ok(isweak(etag(fs.statSync(__filename), {weak: false})))
       })
     })
 
     describe('when "true"', function () {
       it('should generate a weak ETag for a string', function () {
-        assert.equal(etag('beep boop', {weak: true}), 'W/"9-7f3ee715"')
+        assert.equal(etag('beep boop', {weak: true}), 'W/"Z34SGyQ2IB7YzB7HMkCjrQ=="')
       })
 
       it('should generate a weak ETag for a Buffer', function () {
-        assert.equal(etag(new Buffer([1, 2, 3]), {weak: true}), 'W/"3-55bc801d"')
+        assert.equal(etag(new Buffer([1, 2, 3]), {weak: true}), 'W/"Uonfc331cyb83SJZevsfrA=="')
       })
 
       it('should generate a weak ETag for fs.Stats', function () {
