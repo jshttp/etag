@@ -14,7 +14,6 @@ module.exports = etag
  * Module dependencies.
  */
 
-var crc = require('crc').crc32
 var crypto = require('crypto')
 var Stats = require('fs').Stats
 
@@ -39,27 +38,20 @@ function etag(entity, options) {
     throw new TypeError('argument entity is required')
   }
 
-  var isBuffer = Buffer.isBuffer(entity)
-  var weak = options && typeof options.weak === 'boolean'
-    ? options.weak
-    : !isBuffer
-
   // support fs.Stats object
   if (entity instanceof Stats) {
-    return stattag(entity, weak)
+    return stattag(entity)
   }
 
+  var isBuffer = Buffer.isBuffer(entity)
   if (!isBuffer && typeof entity !== 'string') {
     throw new TypeError('argument entity must be string or Buffer')
   }
 
-  var buf = !isBuffer
-    ? new Buffer(entity, 'utf8')
-    : entity
+  var weak = options && options.weak
+  if (!isBuffer) entity = new Buffer(entity, 'utf8')
 
-  return weak
-    ? 'W/"' + weakhash(buf) + '"'
-    : '"' + stronghash(buf) + '"'
+  return (weak ? 'W/' : '') + '"' + stronghash(entity) + '"'
 }
 
 /**
@@ -70,13 +62,9 @@ function etag(entity, options) {
  * @api private
  */
 
-function stattag(stat, weak) {
+function stattag(stat) {
   var mtime = stat.mtime.toISOString()
   var size = stat.size.toString(16)
-
-  if (weak) {
-    return 'W/"' + size + '-' + crc(mtime) + '"'
-  }
 
   var hash = crypto
     .createHash('md5')
@@ -87,7 +75,7 @@ function stattag(stat, weak) {
     .update(mtime, 'utf8')
     .digest('base64')
 
-  return '"' + hash + '"'
+  return 'W/"' + hash + '"'
 }
 
 /**
@@ -108,21 +96,4 @@ function stronghash(buf) {
     .createHash('md5')
     .update(buf)
     .digest('base64')
-}
-
-/**
- * Generate a weak hash.
- *
- * @param {Buffer} entity
- * @return {String}
- * @api private
- */
-
-function weakhash(buf) {
-  if (buf.length === 0) {
-    // fast-path empty
-    return '0-0'
-  }
-
-  return buf.length.toString(16) + '-' + crc(buf).toString(16)
 }
