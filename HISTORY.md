@@ -2,6 +2,7 @@ unreleased
 ==========
 
   * Default strings to strong ETags
+  * Improve speed for weak ETags over 1KB
 
 1.2.1 / 2014-08-29
 ==================

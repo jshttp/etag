@@ -22,6 +22,7 @@ var Stats = require('fs').Stats
  * Module variables.
  */
 
+var crc32threshold = 1000 // 1KB
 var NULL = new Buffer([0])
 
 /**
@@ -57,10 +58,13 @@ function etag(entity, options) {
   var buf = !isBuffer
     ? new Buffer(entity, 'utf8')
     : entity
+  var hash = weak && buf.length <= crc32threshold
+    ? weakhash(buf)
+    : stronghash(buf)
 
   return weak
-    ? 'W/"' + weakhash(buf) + '"'
-    : '"' + stronghash(buf) + '"'
+    ? 'W/"' + hash + '"'
+    : '"' + hash + '"'
 }
 
 /**
