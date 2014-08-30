@@ -1,5 +1,5 @@
-unreleased
-==========
+1.2.1 / 2014-08-29
+==================
 
   * Use the (much faster) `buffer-crc32` for crc32
 
