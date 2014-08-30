@@ -49,10 +49,12 @@ describe('etag(entity)', function () {
   describe('with "weak" option', function () {
     describe('when "false"', function () {
       it('should generate a strong ETag for a string', function () {
+        assert.equal(etag('', {weak: false}), '"1B2M2Y8AsgTpgAmY7PhCfg=="')
         assert.equal(etag('beep boop', {weak: false}), '"Z34SGyQ2IB7YzB7HMkCjrQ=="')
       })
 
       it('should generate a strong ETag for a Buffer', function () {
+        assert.equal(etag(new Buffer(0), {weak: false}), '"1B2M2Y8AsgTpgAmY7PhCfg=="')
         assert.equal(etag(new Buffer([1, 2, 3]), {weak: false}), '"Uonfc331cyb83SJZevsfrA=="')
       })
 
@@ -63,10 +65,12 @@ describe('etag(entity)', function () {
 
     describe('when "true"', function () {
       it('should generate a weak ETag for a string', function () {
+        assert.equal(etag('', {weak: true}), 'W/"0-0"')
         assert.equal(etag('beep boop', {weak: true}), 'W/"9-7f3ee715"')
       })
 
       it('should generate a weak ETag for a Buffer', function () {
+        assert.equal(etag(new Buffer(0), {weak: true}), 'W/"0-0"')
         assert.equal(etag(new Buffer([1, 2, 3]), {weak: true}), 'W/"3-55bc801d"')
       })
 
