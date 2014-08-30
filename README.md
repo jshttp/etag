@@ -109,20 +109,6 @@ $ npm run-script bench
   buffer - weak   x 3,719 ops/sec ±0.18% (195 runs sampled)
   string - strong x 5,125 ops/sec ±2.24% (191 runs sampled)
   string - weak   x 3,181 ops/sec ±1.90% (192 runs sampled)
-
-> node benchmark/body4-1mb.js
-
-  1MB body
-
-  1 test completed.
-  2 tests completed.
-  3 tests completed.
-  4 tests completed.
-
-  buffer - strong x 659 ops/sec ±0.21% (191 runs sampled)
-  buffer - weak   x 365 ops/sec ±0.52% (190 runs sampled)
-  string - strong x 536 ops/sec ±1.73% (185 runs sampled)
-  string - weak   x 326 ops/sec ±1.41% (185 runs sampled)
 ```
 
 ## License
