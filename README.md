@@ -24,8 +24,8 @@ var etag = require('etag')
 
 Generate a strong ETag for the given entity. This should be the complete
 body of the entity. Strings, `Buffer`s, and `fs.Stats` are accepted. By
-default, a string or `fs.Stats` will generate a weak ETag while a `Buffer`
-will generate a strong ETag (this can be overwritten by `options.weak`).
+default, a strong ETag is generated except for `fs.Stats`, which will
+generate a weak ETag (this can be overwritten by `options.weak`).
 
 ```js
 res.setHeader('ETag', etag(body))

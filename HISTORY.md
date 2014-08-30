@@ -1,3 +1,8 @@
+unreleased
+==========
+
+  * Default strings to strong ETags
+
 1.2.1 / 2014-08-29
 ==================
 

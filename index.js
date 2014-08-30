@@ -40,12 +40,13 @@ function etag(entity, options) {
   }
 
   var isBuffer = Buffer.isBuffer(entity)
+  var isStats = entity instanceof Stats
   var weak = options && typeof options.weak === 'boolean'
     ? options.weak
-    : !isBuffer
+    : isStats
 
   // support fs.Stats object
-  if (entity instanceof Stats) {
+  if (isStats) {
     return stattag(entity, weak)
   }
 

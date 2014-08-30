@@ -13,16 +13,16 @@ describe('etag(entity)', function () {
   })
 
   describe('when "entity" is a string', function () {
-    it('should generate a weak ETag', function () {
-      assert.equal(etag('beep boop'), 'W/"9-7f3ee715"')
+    it('should generate a strong ETag', function () {
+      assert.equal(etag('beep boop'), '"Z34SGyQ2IB7YzB7HMkCjrQ=="')
     })
 
     it('should work containing Unicode', function () {
-      assert.equal(etag('论'), 'W/"3-438093ff"')
+      assert.equal(etag('论'), '"aW9HeLTk2Yt6lf7zJYElgw=="')
     })
 
     it('should work for empty string', function () {
-      assert.equal(etag(''), 'W/"0-0"')
+      assert.equal(etag(''), '"1B2M2Y8AsgTpgAmY7PhCfg=="')
     })
   })
 
