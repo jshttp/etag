@@ -1,3 +1,8 @@
+unreleased
+==========
+
+  * Use the (much faster) `buffer-crc32` for crc32
+
 1.2.0 / 2014-08-24
 ==================
 

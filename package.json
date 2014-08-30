@@ -14,7 +14,7 @@
   ],
   "repository": "jshttp/etag",
   "dependencies": {
-    "crc": "2.1.1"
+    "buffer-crc32": "0.2.3"
   },
   "devDependencies": {
     "benchmark": "1.0.0",

@@ -14,7 +14,7 @@ module.exports = etag
  * Module dependencies.
  */
 
-var crc = require('crc').crc32
+var crc = require('buffer-crc32').unsigned
 var crypto = require('crypto')
 var Stats = require('fs').Stats
 
