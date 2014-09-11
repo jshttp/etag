@@ -52,7 +52,7 @@ function etag(entity, options) {
   }
 
   if (!isBuffer && typeof entity !== 'string') {
-    throw new TypeError('argument entity must be string or Buffer')
+    throw new TypeError('argument entity must be string, Buffer, or fs.Stats')
   }
 
   var buf = !isBuffer
