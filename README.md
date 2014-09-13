@@ -63,10 +63,10 @@ $ npm run-script bench
   3 tests completed.
   4 tests completed.
 
-  buffer - strong x   502,914 ops/sec ±1.18% (185 runs sampled)
-  buffer - weak   x 1,149,420 ops/sec ±0.48% (194 runs sampled)
-  string - strong x   205,007 ops/sec ±2.08% (179 runs sampled)
-  string - weak   x   356,944 ops/sec ±1.68% (192 runs sampled)
+  buffer - strong x   518,895 ops/sec ±1.71% (185 runs sampled)
+* buffer - weak   x 1,917,975 ops/sec ±0.34% (195 runs sampled)
+  string - strong x   245,251 ops/sec ±0.90% (190 runs sampled)
+  string - weak   x   442,232 ops/sec ±0.21% (196 runs sampled)
 
 > node benchmark/body1-1kb.js
 
@@ -77,10 +77,10 @@ $ npm run-script bench
   3 tests completed.
   4 tests completed.
 
-  buffer - strong x 293,298 ops/sec ±1.04% (190 runs sampled)
-  buffer - weak   x 297,940 ops/sec ±0.23% (196 runs sampled)
-  string - strong x 153,165 ops/sec ±2.02% (186 runs sampled)
-  string - weak   x 169,967 ops/sec ±1.27% (187 runs sampled)
+  buffer - strong x 309,748 ops/sec ±0.99% (191 runs sampled)
+* buffer - weak   x 352,402 ops/sec ±0.20% (198 runs sampled)
+  string - strong x 159,058 ops/sec ±1.83% (191 runs sampled)
+  string - weak   x 184,052 ops/sec ±1.30% (189 runs sampled)
 
 > node benchmark/body2-5kb.js
 
@@ -91,10 +91,10 @@ $ npm run-script bench
   3 tests completed.
   4 tests completed.
 
-  buffer - strong x 103,880 ops/sec ±0.62% (194 runs sampled)
-  buffer - weak   x 104,204 ops/sec ±0.73% (192 runs sampled)
-  string - strong x  58,025 ops/sec ±4.10% (185 runs sampled)
-  string - weak   x  59,181 ops/sec ±3.96% (186 runs sampled)
+* buffer - strong x 110,157 ops/sec ±0.60% (194 runs sampled)
+* buffer - weak   x 111,333 ops/sec ±0.67% (194 runs sampled)
+  string - strong x  62,091 ops/sec ±3.92% (186 runs sampled)
+  string - weak   x  60,681 ops/sec ±3.98% (186 runs sampled)
 
 > node benchmark/body3-10kb.js
 
@@ -105,10 +105,10 @@ $ npm run-script bench
   3 tests completed.
   4 tests completed.
 
-  buffer - strong x 57,975 ops/sec ±0.42% (195 runs sampled)
-  buffer - weak   x 57,658 ops/sec ±0.48% (194 runs sampled)
-  string - strong x 38,969 ops/sec ±3.44% (187 runs sampled)
-  string - weak   x 38,979 ops/sec ±3.38% (187 runs sampled)
+* buffer - strong x 61,843 ops/sec ±0.44% (197 runs sampled)
+* buffer - weak   x 61,687 ops/sec ±0.52% (197 runs sampled)
+  string - strong x 41,377 ops/sec ±3.33% (189 runs sampled)
+  string - weak   x 41,368 ops/sec ±3.29% (190 runs sampled)
 
 > node benchmark/body4-100kb.js
 
@@ -119,10 +119,10 @@ $ npm run-script bench
   3 tests completed.
   4 tests completed.
 
-  buffer - strong x 6,517 ops/sec ±0.18% (194 runs sampled)
-  buffer - weak   x 6,484 ops/sec ±0.18% (194 runs sampled)
-  string - strong x 5,115 ops/sec ±2.29% (190 runs sampled)
-  string - weak   x 5,071 ops/sec ±2.32% (190 runs sampled)
+* buffer - strong x 6,874 ops/sec ±0.17% (198 runs sampled)
+* buffer - weak   x 6,880 ops/sec ±0.15% (198 runs sampled)
+  string - strong x 5,382 ops/sec ±2.17% (192 runs sampled)
+  string - weak   x 5,361 ops/sec ±2.23% (192 runs sampled)
 ```
 
 ## License
