@@ -1,5 +1,5 @@
-unreleased
-==========
+1.3.1 / 2014-09-14
+==================
 
   * Use the (new and improved) `crc` for crc32
 
