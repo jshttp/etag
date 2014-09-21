@@ -1,5 +1,5 @@
-unreleased
-==========
+1.4.0 / 2014-09-21
+==================
 
   * Support "fake" stats objects
   * Support Node.js 0.6
