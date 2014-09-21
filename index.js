@@ -24,6 +24,7 @@ var Stats = require('fs').Stats
 
 var crc32threshold = 1000 // 1KB
 var NULL = new Buffer([0])
+var toString = Object.prototype.toString
 
 /**
  * Create a simple ETag.
@@ -41,7 +42,7 @@ function etag(entity, options) {
   }
 
   var isBuffer = Buffer.isBuffer(entity)
-  var isStats = entity instanceof Stats
+  var isStats = isstats(entity)
   var weak = options && typeof options.weak === 'boolean'
     ? options.weak
     : isStats
@@ -65,6 +66,33 @@ function etag(entity, options) {
   return weak
     ? 'W/"' + hash + '"'
     : '"' + hash + '"'
+}
+
+/**
+ * Determine if object is a Stats object.
+ *
+ * @param {object} obj
+ * @return {boolean}
+ * @api private
+ */
+
+function isstats(obj) {
+  // not even an object
+  if (obj === null || typeof obj !== 'object') {
+    return false
+  }
+
+  // genuine fs.Stats
+  if (obj instanceof Stats) {
+    return true
+  }
+
+  // quack quack
+  return 'atime' in obj && toString.call(obj.atime) === '[object Date]'
+    && 'ctime' in obj && toString.call(obj.ctime) === '[object Date]'
+    && 'mtime' in obj && toString.call(obj.mtime) === '[object Date]'
+    && 'ino' in obj && typeof obj.ino === 'number'
+    && 'size' in obj && typeof obj.size === 'number'
 }
 
 /**

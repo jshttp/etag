@@ -1,3 +1,8 @@
+unreleased
+==========
+
+  * Support "fake" stats objects
+
 1.3.1 / 2014-09-14
 ==================
 
