@@ -41,7 +41,6 @@ function etag(entity, options) {
     throw new TypeError('argument entity is required')
   }
 
-  var isBuffer = Buffer.isBuffer(entity)
   var isStats = isstats(entity)
   var weak = options && typeof options.weak === 'boolean'
     ? options.weak
@@ -52,16 +51,16 @@ function etag(entity, options) {
     return stattag(entity, weak)
   }
 
-  if (!isBuffer && typeof entity !== 'string') {
-    throw new TypeError('argument entity must be string, Buffer, or fs.Stats')
+  if (!Buffer.isBuffer(entity)) {
+    if (typeof entity !== 'string') {
+      throw new TypeError('argument entity must be string, Buffer, or fs.Stats')
+    }
+    entity = new Buffer(entity, 'utf8')
   }
 
-  var buf = !isBuffer
-    ? new Buffer(entity, 'utf8')
-    : entity
-  var hash = weak && buf.length <= crc32threshold
-    ? weakhash(buf)
-    : stronghash(buf)
+  var hash = weak && entity.length <= crc32threshold
+    ? weakhash(entity)
+    : stronghash(entity)
 
   return weak
     ? 'W/"' + hash + '"'
