@@ -45,6 +45,7 @@ function etag(entity, options) {
   var weak = options && typeof options.weak === 'boolean'
     ? options.weak
     : isStats
+
   // support fs.Stats object
   if (isStats) {
     return stattag(entity, weak)
