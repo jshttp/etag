@@ -2,6 +2,10 @@
 var assert = require('assert')
 var etag = require('..')
 var fs = require('fs')
+var seedrandom = require('seedrandom')
+
+var buf5kb = getbuffer(5 * 1024)
+var str5kb = getbuffer(5 * 1024).toString()
 
 describe('etag(entity)', function () {
   it('should require an entity', function () {
@@ -64,11 +68,13 @@ describe('etag(entity)', function () {
       it('should generate a strong ETag for a string', function () {
         assert.equal(etag('', {weak: false}), '"1B2M2Y8AsgTpgAmY7PhCfg=="')
         assert.equal(etag('beep boop', {weak: false}), '"Z34SGyQ2IB7YzB7HMkCjrQ=="')
+        assert.equal(etag(str5kb, {weak: false}), '"8Kq68cJq4i+5US7RLWrE1g=="')
       })
 
       it('should generate a strong ETag for a Buffer', function () {
         assert.equal(etag(new Buffer(0), {weak: false}), '"1B2M2Y8AsgTpgAmY7PhCfg=="')
         assert.equal(etag(new Buffer([1, 2, 3]), {weak: false}), '"Uonfc331cyb83SJZevsfrA=="')
+        assert.equal(etag(buf5kb, {weak: false}), '"8Kq68cJq4i+5US7RLWrE1g=="')
       })
 
       it('should generate a strong ETag for fs.Stats', function () {
@@ -80,11 +86,13 @@ describe('etag(entity)', function () {
       it('should generate a weak ETag for a string', function () {
         assert.equal(etag('', {weak: true}), 'W/"0-0"')
         assert.equal(etag('beep boop', {weak: true}), 'W/"9-7f3ee715"')
+        assert.equal(etag(str5kb, {weak: true}), 'W/"8Kq68cJq4i+5US7RLWrE1g=="')
       })
 
       it('should generate a weak ETag for a Buffer', function () {
         assert.equal(etag(new Buffer(0), {weak: true}), 'W/"0-0"')
         assert.equal(etag(new Buffer([1, 2, 3]), {weak: true}), 'W/"3-55bc801d"')
+        assert.equal(etag(buf5kb, {weak: true}), 'W/"8Kq68cJq4i+5US7RLWrE1g=="')
       })
 
       it('should generate a weak ETag for fs.Stats', function () {
@@ -93,6 +101,17 @@ describe('etag(entity)', function () {
     })
   })
 })
+
+function getbuffer(size) {
+  var buffer = new Buffer(size)
+  var rng = seedrandom('etag test')
+
+  for (var i = 0; i < buffer.length; i++) {
+    buffer[i] = (rng() * 94 + 32) | 0
+  }
+
+  return buffer
+}
 
 function isweak(etag) {
   var weak = /^(W\/|)"([^"]+)"/.exec(etag)
