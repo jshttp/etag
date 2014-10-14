@@ -41,7 +41,6 @@ function etag(entity, options) {
     throw new TypeError('argument entity is required')
   }
 
-  var isBuffer = Buffer.isBuffer(entity)
   var isStats = isstats(entity)
   var weak = options && typeof options.weak === 'boolean'
     ? options.weak
@@ -52,16 +51,13 @@ function etag(entity, options) {
     return stattag(entity, weak)
   }
 
-  if (!isBuffer && typeof entity !== 'string') {
+  if (typeof entity !== 'string' && !Buffer.isBuffer(entity)) {
     throw new TypeError('argument entity must be string, Buffer, or fs.Stats')
   }
 
-  var buf = !isBuffer
-    ? new Buffer(entity, 'utf8')
-    : entity
   var hash = weak
-    ? weakhash(buf)
-    : stronghash(buf)
+    ? weakhash(entity)
+    : stronghash(entity)
 
   return weak
     ? 'W/"' + hash + '"'
@@ -131,15 +127,15 @@ function stattag(stat, weak) {
  * @api private
  */
 
-function stronghash(buf) {
-  if (buf.length === 0) {
+function stronghash(entity) {
+  if (entity.length === 0) {
     // fast-path empty
     return '1B2M2Y8AsgTpgAmY7PhCfg=='
   }
 
   return crypto
     .createHash('md5')
-    .update(buf)
+    .update(entity, 'utf8')
     .digest('base64')
 }
 
@@ -151,20 +147,25 @@ function stronghash(buf) {
  * @api private
  */
 
-function weakhash(buf) {
-  if (buf.length === 0) {
+function weakhash(entity) {
+  if (entity.length === 0) {
     // fast-path empty
     return '0-0'
   }
 
-  if (buf.length <= crc32threshold) {
+  var len = typeof entity === 'string'
+    ? Buffer.byteLength(entity, 'utf8')
+    : entity.length
+
+  if (len <= crc32threshold) {
     // crc32 plus length when it's fast
-    return buf.length.toString(16) + '-' + crc(buf).toString(16)
+    // crc(str) only accepts utf-8 encoding
+    return len.toString(16) + '-' + crc(entity).toString(16)
   }
 
   // use md4 for long strings
   return crypto
     .createHash('md4')
-    .update(buf)
+    .update(entity, 'utf8')
     .digest('base64')
 }
