@@ -1,5 +1,5 @@
-unreleased
-==========
+1.5.0 / 2014-10-14
+==================
 
   * Improve string performance
   * Slightly improve speed for weak ETags over 1KB
