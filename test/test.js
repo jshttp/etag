@@ -23,6 +23,7 @@ describe('etag(entity)', function () {
 
     it('should work containing Unicode', function () {
       assert.equal(etag('论'), '"aW9HeLTk2Yt6lf7zJYElgw=="')
+      assert.equal(etag('论', {weak: true}), 'W/"3-438093ff"')
     })
 
     it('should work for empty string', function () {
