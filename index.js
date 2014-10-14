@@ -59,7 +59,7 @@ function etag(entity, options) {
   var buf = !isBuffer
     ? new Buffer(entity, 'utf8')
     : entity
-  var hash = weak && buf.length <= crc32threshold
+  var hash = weak
     ? weakhash(buf)
     : stronghash(buf)
 
@@ -157,5 +157,14 @@ function weakhash(buf) {
     return '0-0'
   }
 
-  return buf.length.toString(16) + '-' + crc(buf).toString(16)
+  if (buf.length <= crc32threshold) {
+    // crc32 plus length when it's fast
+    return buf.length.toString(16) + '-' + crc(buf).toString(16)
+  }
+
+  // use md4 for long strings
+  return crypto
+    .createHash('md4')
+    .update(buf)
+    .digest('base64')
 }

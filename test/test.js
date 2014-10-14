@@ -86,13 +86,13 @@ describe('etag(entity)', function () {
       it('should generate a weak ETag for a string', function () {
         assert.equal(etag('', {weak: true}), 'W/"0-0"')
         assert.equal(etag('beep boop', {weak: true}), 'W/"9-7f3ee715"')
-        assert.equal(etag(str5kb, {weak: true}), 'W/"8Kq68cJq4i+5US7RLWrE1g=="')
+        assert.equal(etag(str5kb, {weak: true}), 'W/"3Ikd9BFqLeTIltAti5IvKg=="')
       })
 
       it('should generate a weak ETag for a Buffer', function () {
         assert.equal(etag(new Buffer(0), {weak: true}), 'W/"0-0"')
         assert.equal(etag(new Buffer([1, 2, 3]), {weak: true}), 'W/"3-55bc801d"')
-        assert.equal(etag(buf5kb, {weak: true}), 'W/"8Kq68cJq4i+5US7RLWrE1g=="')
+        assert.equal(etag(buf5kb, {weak: true}), 'W/"3Ikd9BFqLeTIltAti5IvKg=="')
       })
 
       it('should generate a weak ETag for fs.Stats', function () {

@@ -1,3 +1,8 @@
+unreleased
+==========
+
+  * Slightly improve speed for weak ETags over 1KB
+
 1.4.0 / 2014-09-21
 ==================
 
