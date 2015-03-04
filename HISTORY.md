@@ -1,3 +1,8 @@
+unreleased
+==========
+
+  * Support "fake" stats objects in environments without `fs`
+
 1.5.1 / 2014-11-19
 ==================
 
