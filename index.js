@@ -79,7 +79,7 @@ function isstats(obj) {
   }
 
   // genuine fs.Stats
-  if (obj instanceof Stats) {
+  if (typeof Stats === 'function' && obj instanceof Stats) {
     return true
   }
 
