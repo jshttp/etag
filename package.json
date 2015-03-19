@@ -21,7 +21,7 @@
     "beautify-benchmark": "0.2.4",
     "istanbul": "0.3.2",
     "mocha": "~1.21.4",
-    "seedrandom": "~2.3.6"
+    "seedrandom": "2.3.11"
   },
   "files": [
     "LICENSE",
