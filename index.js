@@ -73,18 +73,14 @@ function etag(entity, options) {
  */
 
 function isstats(obj) {
-  // not even an object
-  if (obj === null || typeof obj !== 'object') {
-    return false
-  }
-
   // genuine fs.Stats
   if (typeof Stats === 'function' && obj instanceof Stats) {
     return true
   }
 
   // quack quack
-  return 'atime' in obj && toString.call(obj.atime) === '[object Date]'
+  return obj && typeof obj === 'object'
+    && 'atime' in obj && toString.call(obj.atime) === '[object Date]'
     && 'ctime' in obj && toString.call(obj.ctime) === '[object Date]'
     && 'mtime' in obj && toString.call(obj.mtime) === '[object Date]'
     && 'ino' in obj && typeof obj.ino === 'number'
