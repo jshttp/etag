@@ -51,8 +51,17 @@ $ npm test
 ```bash
 $ npm run-script bench
 
-> etag@1.5.1 bench nodejs-etag
+> etag@1.6.0 bench nodejs-etag
 > node benchmark/index.js
+
+  http_parser@1.0
+  node@0.10.33
+  v8@3.14.5.9
+  ares@1.9.0-DEV
+  uv@0.10.29
+  zlib@1.2.3
+  modules@11
+  openssl@1.0.1j
 
 > node benchmark/body0-100b.js
 

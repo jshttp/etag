@@ -5,6 +5,12 @@ var spawn = require('child_process').spawn;
 var exe = process.argv[0];
 var cwd = process.cwd();
 
+for (var dep in process.versions) {
+  console.log('  %s@%s', dep, process.versions[dep]);
+}
+
+console.log('')
+
 runScripts(fs.readdirSync(__dirname));
 
 function runScripts(fileNames) {
