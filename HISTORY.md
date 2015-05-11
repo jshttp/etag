@@ -1,5 +1,5 @@
-unreleased
-==========
+1.6.0 / 2015-05-10
+==================
 
   * Improve support for JXcore
   * Remove requirement of `atime` in the stats object
