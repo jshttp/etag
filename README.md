@@ -129,13 +129,13 @@ $ npm run-script bench
 
 [MIT](LICENSE)
 
-[npm-image]: https://img.shields.io/npm/v/etag.svg?style=flat
+[npm-image]: https://img.shields.io/npm/v/etag.svg
 [npm-url]: https://npmjs.org/package/etag
-[node-version-image]: https://img.shields.io/node/v/etag.svg?style=flat
+[node-version-image]: https://img.shields.io/node/v/etag.svg
 [node-version-url]: http://nodejs.org/download/
-[travis-image]: https://img.shields.io/travis/jshttp/etag.svg?style=flat
+[travis-image]: https://img.shields.io/travis/jshttp/etag/master.svg
 [travis-url]: https://travis-ci.org/jshttp/etag
-[coveralls-image]: https://img.shields.io/coveralls/jshttp/etag.svg?style=flat
+[coveralls-image]: https://img.shields.io/coveralls/jshttp/etag/master.svg
 [coveralls-url]: https://coveralls.io/r/jshttp/etag?branch=master
-[downloads-image]: https://img.shields.io/npm/dm/etag.svg?style=flat
+[downloads-image]: https://img.shields.io/npm/dm/etag.svg
 [downloads-url]: https://npmjs.org/package/etag
