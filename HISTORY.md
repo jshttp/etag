@@ -2,6 +2,7 @@ unreleased
 ==========
 
   * Improve support for JXcore
+  * Remove requirement of `atime` in the stats object
   * Support "fake" stats objects in environments without `fs`
 
 1.5.1 / 2014-11-19

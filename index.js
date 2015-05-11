@@ -1,6 +1,6 @@
 /*!
  * etag
- * Copyright(c) 2014 Douglas Christopher Wilson
+ * Copyright(c) 2014-2015 Douglas Christopher Wilson
  * MIT Licensed
  */
 
@@ -80,7 +80,6 @@ function isstats(obj) {
 
   // quack quack
   return obj && typeof obj === 'object'
-    && 'atime' in obj && toString.call(obj.atime) === '[object Date]'
     && 'ctime' in obj && toString.call(obj.ctime) === '[object Date]'
     && 'mtime' in obj && toString.call(obj.mtime) === '[object Date]'
     && 'ino' in obj && typeof obj.ino === 'number'

@@ -54,7 +54,6 @@ describe('etag(entity)', function () {
   describe('when "entity" looks like a stats object', function () {
     it('should generate a weak ETag', function () {
       var fakeStat = {
-        atime: new Date('2014-09-01T14:52:07Z'),
         ctime: new Date('2014-09-01T14:52:07Z'),
         mtime: new Date('2014-09-01T14:52:07Z'),
         ino: 0,
