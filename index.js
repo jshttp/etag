@@ -25,6 +25,7 @@ var Stats = require('fs').Stats
  * @private
  */
 
+var base64PadCharRegExp = /=+$/
 var crc32threshold = 1000 // 1KB
 var toString = Object.prototype.toString
 
@@ -118,13 +119,14 @@ function stattag(stat, weak) {
 function stronghash(entity) {
   if (entity.length === 0) {
     // fast-path empty
-    return '1B2M2Y8AsgTpgAmY7PhCfg=='
+    return '1B2M2Y8AsgTpgAmY7PhCfg'
   }
 
   return crypto
     .createHash('md5')
     .update(entity, 'utf8')
     .digest('base64')
+    .replace(base64PadCharRegExp, '')
 }
 
 /**
@@ -156,4 +158,5 @@ function weakhash(entity) {
     .createHash('md5')
     .update(entity, 'utf8')
     .digest('base64')
+    .replace(base64PadCharRegExp, '')
 }
