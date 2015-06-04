@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+  * Improve stat performance by removing hashing
   * Use MD5 instead of MD4 in weak ETags over 1KB
 
 1.6.0 / 2015-05-10

@@ -142,10 +142,10 @@ $ npm run-script bench
   3 tests completed.
   4 tests completed.
 
-  real - strong x 223,948 ops/sec ±0.49% (193 runs sampled)
-* real - weak   x 354,211 ops/sec ±0.30% (196 runs sampled)
-  fake - strong x 173,727 ops/sec ±0.42% (193 runs sampled)
-  fake - weak   x 252,173 ops/sec ±0.20% (197 runs sampled)
+* real - strong x 1,670,334 ops/sec ±0.29% (196 runs sampled)
+* real - weak   x 1,659,717 ops/sec ±0.15% (197 runs sampled)
+  fake - strong x   927,277 ops/sec ±0.13% (195 runs sampled)
+  fake - weak   x   919,575 ops/sec ±0.19% (196 runs sampled)
 ```
 
 ## License

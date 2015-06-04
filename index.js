@@ -20,10 +20,10 @@ var Stats = require('fs').Stats
 
 /**
  * Module variables.
+ * @private
  */
 
 var crc32threshold = 1000 // 1KB
-var NULL = new Buffer([0])
 var toString = Object.prototype.toString
 
 /**
@@ -89,29 +89,20 @@ function isstats(obj) {
 /**
  * Generate a tag for a stat.
  *
- * @param {Buffer} entity
- * @return {String}
- * @api private
+ * @param {object} stat
+ * @param {boolean} weak
+ * @return {string}
+ * @private
  */
 
 function stattag(stat, weak) {
-  var mtime = stat.mtime.toISOString()
+  var mtime = stat.mtime.getTime().toString(16)
   var size = stat.size.toString(16)
+  var tag = '"' + size + '-' + mtime + '"'
 
-  if (weak) {
-    return 'W/"' + size + '-' + crc(mtime) + '"'
-  }
-
-  var hash = crypto
-    .createHash('md5')
-    .update('file', 'utf8')
-    .update(NULL)
-    .update(size, 'utf8')
-    .update(NULL)
-    .update(mtime, 'utf8')
-    .digest('base64')
-
-  return '"' + hash + '"'
+  return weak
+    ? 'W/' + tag
+    : tag
 }
 
 /**
