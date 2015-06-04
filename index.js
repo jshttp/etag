@@ -158,9 +158,9 @@ function weakhash(entity) {
     return len.toString(16) + '-' + crc(entity).toString(16)
   }
 
-  // use md4 for long strings
+  // use md5 for long strings
   return crypto
-    .createHash('md4')
+    .createHash('md5')
     .update(entity, 'utf8')
     .digest('base64')
 }
