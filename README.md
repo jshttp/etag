@@ -132,6 +132,20 @@ $ npm run-script bench
 * buffer - weak   x 6,663 ops/sec ±0.12% (197 runs sampled)
   string - strong x 6,380 ops/sec ±0.18% (196 runs sampled)
   string - weak   x 6,369 ops/sec ±0.14% (196 runs sampled)
+
+> node benchmark/stats.js
+
+  stats
+
+  1 test completed.
+  2 tests completed.
+  3 tests completed.
+  4 tests completed.
+
+  real - strong x 223,948 ops/sec ±0.49% (193 runs sampled)
+* real - weak   x 354,211 ops/sec ±0.30% (196 runs sampled)
+  fake - strong x 173,727 ops/sec ±0.42% (193 runs sampled)
+  fake - weak   x 252,173 ops/sec ±0.20% (197 runs sampled)
 ```
 
 ## License
