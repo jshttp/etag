@@ -8,15 +8,16 @@
 
 /**
  * Module exports.
+ * @public
  */
 
 module.exports = etag
 
 /**
  * Module dependencies.
+ * @private
  */
 
-var crc = require('crc').crc32
 var crypto = require('crypto')
 var Stats = require('fs').Stats
 
@@ -26,8 +27,36 @@ var Stats = require('fs').Stats
  */
 
 var base64PadCharRegExp = /=+$/
-var crc32threshold = 1000 // 1KB
 var toString = Object.prototype.toString
+
+/**
+ * Generate an entity tag.
+ *
+ * @param {Buffer|string} entity
+ * @return {string}
+ * @private
+ */
+
+function entitytag(entity) {
+  if (entity.length === 0) {
+    // fast-path empty
+    return '"0-1B2M2Y8AsgTpgAmY7PhCfg"'
+  }
+
+  // compute hash of entity
+  var hash = crypto
+    .createHash('md5')
+    .update(entity, 'utf8')
+    .digest('base64')
+    .replace(base64PadCharRegExp, '')
+
+  // compute length of entity
+  var len = typeof entity === 'string'
+    ? Buffer.byteLength(entity, 'utf8')
+    : entity.length
+
+  return '"' + len.toString(16) + '-' + hash + '"'
+}
 
 /**
  * Create a simple ETag.
@@ -36,7 +65,7 @@ var toString = Object.prototype.toString
  * @param {object} [options]
  * @param {boolean} [options.weak]
  * @return {String}
- * @api public
+ * @public
  */
 
 function etag(entity, options) {
@@ -44,27 +73,25 @@ function etag(entity, options) {
     throw new TypeError('argument entity is required')
   }
 
+  // support fs.Stats object
   var isStats = isstats(entity)
   var weak = options && typeof options.weak === 'boolean'
     ? options.weak
     : isStats
 
-  // support fs.Stats object
-  if (isStats) {
-    return stattag(entity, weak)
-  }
-
-  if (typeof entity !== 'string' && !Buffer.isBuffer(entity)) {
+  // validate argument
+  if (!isStats && typeof entity !== 'string' && !Buffer.isBuffer(entity)) {
     throw new TypeError('argument entity must be string, Buffer, or fs.Stats')
   }
 
-  var hash = weak
-    ? weakhash(entity)
-    : stronghash(entity)
+  // generate entity tag
+  var tag = isStats
+    ? stattag(entity)
+    : entitytag(entity)
 
   return weak
-    ? 'W/"' + hash + '"'
-    : '"' + hash + '"'
+    ? 'W/' + tag
+    : tag
 }
 
 /**
@@ -93,77 +120,13 @@ function isstats(obj) {
  * Generate a tag for a stat.
  *
  * @param {object} stat
- * @param {boolean} weak
  * @return {string}
  * @private
  */
 
-function stattag(stat, weak) {
+function stattag(stat) {
   var mtime = stat.mtime.getTime().toString(16)
   var size = stat.size.toString(16)
-  var tag = '"' + size + '-' + mtime + '"'
 
-  return weak
-    ? 'W/' + tag
-    : tag
-}
-
-/**
- * Generate a strong hash.
- *
- * @param {Buffer} entity
- * @return {String}
- * @api private
- */
-
-function stronghash(entity) {
-  if (entity.length === 0) {
-    // fast-path empty
-    return '0-1B2M2Y8AsgTpgAmY7PhCfg'
-  }
-
-  var hash = crypto
-    .createHash('md5')
-    .update(entity, 'utf8')
-    .digest('base64')
-    .replace(base64PadCharRegExp, '')
-  var len = typeof entity === 'string'
-    ? Buffer.byteLength(entity, 'utf8')
-    : entity.length
-
-  return len.toString(16) + '-' + hash
-}
-
-/**
- * Generate a weak hash.
- *
- * @param {Buffer} entity
- * @return {String}
- * @api private
- */
-
-function weakhash(entity) {
-  if (entity.length === 0) {
-    // fast-path empty
-    return '0-0'
-  }
-
-  var len = typeof entity === 'string'
-    ? Buffer.byteLength(entity, 'utf8')
-    : entity.length
-
-  if (len <= crc32threshold) {
-    // crc32 plus length when it's fast
-    // crc(str) only accepts utf-8 encoding
-    return len.toString(16) + '-' + crc(entity).toString(16)
-  }
-
-  // use md5 for long strings
-  var hash = crypto
-    .createHash('md5')
-    .update(entity, 'utf8')
-    .digest('base64')
-    .replace(base64PadCharRegExp, '')
-
-  return len.toString(16) + '-' + hash
+  return '"' + size + '-' + mtime + '"'
 }

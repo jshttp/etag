@@ -13,9 +13,6 @@
     "res"
   ],
   "repository": "jshttp/etag",
-  "dependencies": {
-    "crc": "3.2.1"
-  },
   "devDependencies": {
     "benchmark": "1.0.0",
     "beautify-benchmark": "0.2.4",

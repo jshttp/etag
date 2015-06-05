@@ -37,8 +37,9 @@ res.setHeader('ETag', etag(body))
 
 ##### weak
 
-Specifies if a "strong" or a "weak" ETag will be generated. The ETag can only
-really be a strong as the given input.
+Specifies if the generated ETag will include the weak validator mark (that
+is, the leading `W/`). The actual entity tag is the same. The default value
+is `false`, unless the `entity` is `fs.Stats`, in which case it is `true`.
 
 ## Testing
 
@@ -72,10 +73,10 @@ $ npm run-script bench
   3 tests completed.
   4 tests completed.
 
-  buffer - strong x   303,333 ops/sec ±1.09% (192 runs sampled)
-* buffer - weak   x 1,072,523 ops/sec ±0.35% (198 runs sampled)
-  string - strong x   288,768 ops/sec ±1.00% (190 runs sampled)
-  string - weak   x   352,627 ops/sec ±0.81% (195 runs sampled)
+* buffer - strong x 289,198 ops/sec ±1.09% (190 runs sampled)
+* buffer - weak   x 287,838 ops/sec ±0.91% (189 runs sampled)
+* string - strong x 284,586 ops/sec ±1.05% (192 runs sampled)
+* string - weak   x 287,439 ops/sec ±0.82% (192 runs sampled)
 
 > node benchmark/body1-1kb.js
 
@@ -86,10 +87,10 @@ $ npm run-script bench
   3 tests completed.
   4 tests completed.
 
-  buffer - strong x 214,421 ops/sec ±0.85% (192 runs sampled)
-* buffer - weak   x 303,724 ops/sec ±0.23% (196 runs sampled)
-  string - strong x 204,923 ops/sec ±0.85% (194 runs sampled)
-  string - weak   x 160,254 ops/sec ±1.29% (183 runs sampled)
+* buffer - strong x 212,423 ops/sec ±0.75% (193 runs sampled)
+* buffer - weak   x 211,871 ops/sec ±0.74% (194 runs sampled)
+  string - strong x 205,291 ops/sec ±0.86% (194 runs sampled)
+  string - weak   x 208,463 ops/sec ±0.79% (192 runs sampled)
 
 > node benchmark/body2-5kb.js
 
@@ -100,10 +101,10 @@ $ npm run-script bench
   3 tests completed.
   4 tests completed.
 
-* buffer - strong x 93,069 ops/sec ±0.50% (196 runs sampled)
-* buffer - weak   x 93,117 ops/sec ±0.57% (195 runs sampled)
-  string - strong x 89,057 ops/sec ±0.61% (193 runs sampled)
-  string - weak   x 88,884 ops/sec ±0.58% (195 runs sampled)
+* buffer - strong x 92,901 ops/sec ±0.58% (195 runs sampled)
+* buffer - weak   x 93,045 ops/sec ±0.65% (192 runs sampled)
+  string - strong x 89,621 ops/sec ±0.68% (194 runs sampled)
+  string - weak   x 90,070 ops/sec ±0.70% (196 runs sampled)
 
 > node benchmark/body3-10kb.js
 
@@ -114,10 +115,10 @@ $ npm run-script bench
   3 tests completed.
   4 tests completed.
 
-* buffer - strong x 55,901 ops/sec ±0.35% (196 runs sampled)
-* buffer - weak   x 55,689 ops/sec ±0.51% (197 runs sampled)
-  string - strong x 53,351 ops/sec ±0.45% (194 runs sampled)
-  string - weak   x 53,202 ops/sec ±0.44% (196 runs sampled)
+* buffer - strong x 54,220 ops/sec ±0.85% (192 runs sampled)
+* buffer - weak   x 54,069 ops/sec ±0.83% (191 runs sampled)
+  string - strong x 53,078 ops/sec ±0.53% (194 runs sampled)
+  string - weak   x 53,849 ops/sec ±0.47% (197 runs sampled)
 
 > node benchmark/body4-100kb.js
 
@@ -128,10 +129,10 @@ $ npm run-script bench
   3 tests completed.
   4 tests completed.
 
-* buffer - strong x 6,682 ops/sec ±0.17% (197 runs sampled)
-* buffer - weak   x 6,664 ops/sec ±0.13% (197 runs sampled)
-  string - strong x 6,334 ops/sec ±0.22% (197 runs sampled)
-  string - weak   x 6,401 ops/sec ±0.16% (198 runs sampled)
+* buffer - strong x 6,673 ops/sec ±0.15% (197 runs sampled)
+* buffer - weak   x 6,716 ops/sec ±0.12% (198 runs sampled)
+  string - strong x 6,357 ops/sec ±0.14% (197 runs sampled)
+  string - weak   x 6,344 ops/sec ±0.21% (197 runs sampled)
 
 > node benchmark/stats.js
 
@@ -142,10 +143,10 @@ $ npm run-script bench
   3 tests completed.
   4 tests completed.
 
-* real - strong x 1,670,386 ops/sec ±0.12% (196 runs sampled)
-* real - weak   x 1,671,774 ops/sec ±0.22% (197 runs sampled)
-  fake - strong x   928,226 ops/sec ±0.20% (196 runs sampled)
-  fake - weak   x   923,634 ops/sec ±0.17% (197 runs sampled)
+* real - strong x 1,671,989 ops/sec ±0.13% (197 runs sampled)
+* real - weak   x 1,681,297 ops/sec ±0.12% (198 runs sampled)
+  fake - strong x   927,063 ops/sec ±0.14% (198 runs sampled)
+  fake - weak   x   914,461 ops/sec ±0.41% (191 runs sampled)
 ```
 
 ## License
