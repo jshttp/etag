@@ -119,14 +119,19 @@ function stattag(stat, weak) {
 function stronghash(entity) {
   if (entity.length === 0) {
     // fast-path empty
-    return '1B2M2Y8AsgTpgAmY7PhCfg'
+    return '0-1B2M2Y8AsgTpgAmY7PhCfg'
   }
 
-  return crypto
+  var hash = crypto
     .createHash('md5')
     .update(entity, 'utf8')
     .digest('base64')
     .replace(base64PadCharRegExp, '')
+  var len = typeof entity === 'string'
+    ? Buffer.byteLength(entity, 'utf8')
+    : entity.length
+
+  return len.toString(16) + '-' + hash
 }
 
 /**
@@ -154,9 +159,11 @@ function weakhash(entity) {
   }
 
   // use md5 for long strings
-  return crypto
+  var hash = crypto
     .createHash('md5')
     .update(entity, 'utf8')
     .digest('base64')
     .replace(base64PadCharRegExp, '')
+
+  return len.toString(16) + '-' + hash
 }

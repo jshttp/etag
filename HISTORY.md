@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+  * Always include entity length in ETags for hash length extensions
   * Improve stat performance by removing hashing
   * Remove base64 padding in ETags to shorten
   * Use MD5 instead of MD4 in weak ETags over 1KB
