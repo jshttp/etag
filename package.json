@@ -1,7 +1,7 @@
 {
   "name": "etag",
   "description": "Create simple ETags",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "contributors": [
     "Douglas Christopher Wilson <doug@somethingdoug.com>",
     "David Björklund <david.bjorklund@gmail.com>"

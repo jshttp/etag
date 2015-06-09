@@ -1,5 +1,5 @@
-unreleased
-==========
+1.7.0 / 2015-06-08
+==================
 
   * Always include entity length in ETags for hash length extensions
   * Generate non-Stats ETags using MD5 only (no longer CRC32)
