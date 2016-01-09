@@ -156,7 +156,7 @@ $ npm run-script bench
 [npm-image]: https://img.shields.io/npm/v/etag.svg
 [npm-url]: https://npmjs.org/package/etag
 [node-version-image]: https://img.shields.io/node/v/etag.svg
-[node-version-url]: http://nodejs.org/download/
+[node-version-url]: https://nodejs.org/en/download/
 [travis-image]: https://img.shields.io/travis/jshttp/etag/master.svg
 [travis-url]: https://travis-ci.org/jshttp/etag
 [coveralls-image]: https://img.shields.io/coveralls/jshttp/etag/master.svg
