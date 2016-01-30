@@ -14,7 +14,7 @@
   ],
   "repository": "jshttp/etag",
   "devDependencies": {
-    "benchmark": "1.0.0",
+    "benchmark": "2.1.0",
     "beautify-benchmark": "0.2.4",
     "istanbul": "0.4.2",
     "mocha": "1.21.5",
