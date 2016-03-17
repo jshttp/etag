@@ -64,6 +64,7 @@ function entitytag(entity) {
  * @param {string|Buffer|Stats} entity
  * @param {object} [options]
  * @param {boolean} [options.weak]
+ * @param {string|function} [options.weak]
  * @return {String}
  * @public
  */
@@ -76,8 +77,16 @@ function etag(entity, options) {
   // support fs.Stats object
   var isStats = isstats(entity)
   var weak = options && typeof options.weak === 'boolean'
-    ? options.weak
+    ? Boolean(options.weak)
     : isStats
+    
+  if(options && typeof options.etag == 'function') {
+      return options.etag(entity);
+  }
+  
+  if(options && typeof options.etag == 'string' && options.etag) {
+      weak = options.etag == 'weak' ? true : false;
+  }
 
   // validate argument
   if (!isStats && typeof entity !== 'string' && !Buffer.isBuffer(entity)) {
