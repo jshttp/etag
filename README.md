@@ -6,7 +6,10 @@
 [![Build Status][travis-image]][travis-url]
 [![Test Coverage][coveralls-image]][coveralls-url]
 
-Create simple ETags
+Create simple HTTP ETags
+
+This module generates HTTP ETags (as defined in RFC 7232) for use in
+HTTP responses.
 
 ## Installation
 
