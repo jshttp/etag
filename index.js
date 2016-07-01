@@ -28,6 +28,8 @@ var Stats = require('fs').Stats
 
 var base64PadCharRegExp = /=+$/
 var toString = Object.prototype.toString
+// set NODE_ETAG_HASH_ALGORITHM environment variable to customize the hashing algorithm
+var etagHashAlgorithm = process.env.NODE_ETAG_HASH_ALGORITHM || 'md5';
 
 /**
  * Generate an entity tag.
@@ -45,7 +47,7 @@ function entitytag(entity) {
 
   // compute hash of entity
   var hash = crypto
-    .createHash('md5')
+    .createHash(etagHashAlgorithm)
     .update(entity, 'utf8')
     .digest('base64')
     .replace(base64PadCharRegExp, '')
