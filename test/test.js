@@ -18,26 +18,26 @@ describe('etag(entity)', function () {
 
   describe('when "entity" is a string', function () {
     it('should generate a strong ETag', function () {
-      assert.equal(etag('beep boop'), '"9-Z34SGyQ2IB7YzB7HMkCjrQ"')
+      assert.equal(etag('beep boop'), '"9-fINXV39R1PCo05OqGqr7KIY9lCE"')
     })
 
     it('should work containing Unicode', function () {
-      assert.equal(etag('论'), '"3-aW9HeLTk2Yt6lf7zJYElgw"')
-      assert.equal(etag('论', {weak: true}), 'W/"3-aW9HeLTk2Yt6lf7zJYElgw"')
+      assert.equal(etag('论'), '"3-QkSKq8sXBjHL2tFAZknA2n6LYzM"')
+      assert.equal(etag('论', {weak: true}), 'W/"3-QkSKq8sXBjHL2tFAZknA2n6LYzM"')
     })
 
     it('should work for empty string', function () {
-      assert.equal(etag(''), '"0-1B2M2Y8AsgTpgAmY7PhCfg"')
+      assert.equal(etag(''), '"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"')
     })
   })
 
   describe('when "entity" is a Buffer', function () {
     it('should generate a strong ETag', function () {
-      assert.equal(etag(new Buffer([1, 2, 3])), '"3-Uonfc331cyb83SJZevsfrA"')
+      assert.equal(etag(new Buffer([1, 2, 3])), '"3-cDeAcZjCKn0rCAc3HXY3eahP388"')
     })
 
     it('should work for empty Buffer', function () {
-      assert.equal(etag(new Buffer(0)), '"0-1B2M2Y8AsgTpgAmY7PhCfg"')
+      assert.equal(etag(new Buffer(0)), '"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"')
     })
   })
 
@@ -66,15 +66,15 @@ describe('etag(entity)', function () {
   describe('with "weak" option', function () {
     describe('when "false"', function () {
       it('should generate a strong ETag for a string', function () {
-        assert.equal(etag('', {weak: false}), '"0-1B2M2Y8AsgTpgAmY7PhCfg"')
-        assert.equal(etag('beep boop', {weak: false}), '"9-Z34SGyQ2IB7YzB7HMkCjrQ"')
-        assert.equal(etag(str5kb, {weak: false}), '"1400-8Kq68cJq4i+5US7RLWrE1g"')
+        assert.equal(etag('', {weak: false}), '"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"')
+        assert.equal(etag('beep boop', {weak: false}), '"9-fINXV39R1PCo05OqGqr7KIY9lCE"')
+        assert.equal(etag(str5kb, {weak: false}), '"1400-CH0oWYLQGHe/yDhUrMkMg3fIdVU"')
       })
 
       it('should generate a strong ETag for a Buffer', function () {
-        assert.equal(etag(new Buffer(0), {weak: false}), '"0-1B2M2Y8AsgTpgAmY7PhCfg"')
-        assert.equal(etag(new Buffer([1, 2, 3]), {weak: false}), '"3-Uonfc331cyb83SJZevsfrA"')
-        assert.equal(etag(buf5kb, {weak: false}), '"1400-8Kq68cJq4i+5US7RLWrE1g"')
+        assert.equal(etag(new Buffer(0), {weak: false}), '"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"')
+        assert.equal(etag(new Buffer([1, 2, 3]), {weak: false}), '"3-cDeAcZjCKn0rCAc3HXY3eahP388"')
+        assert.equal(etag(buf5kb, {weak: false}), '"1400-CH0oWYLQGHe/yDhUrMkMg3fIdVU"')
       })
 
       it('should generate a strong ETag for fs.Stats', function () {
@@ -84,15 +84,15 @@ describe('etag(entity)', function () {
 
     describe('when "true"', function () {
       it('should generate a weak ETag for a string', function () {
-        assert.equal(etag('', {weak: true}), 'W/"0-1B2M2Y8AsgTpgAmY7PhCfg"')
-        assert.equal(etag('beep boop', {weak: true}), 'W/"9-Z34SGyQ2IB7YzB7HMkCjrQ"')
-        assert.equal(etag(str5kb, {weak: true}), 'W/"1400-8Kq68cJq4i+5US7RLWrE1g"')
+        assert.equal(etag('', {weak: true}), 'W/"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"')
+        assert.equal(etag('beep boop', {weak: true}), 'W/"9-fINXV39R1PCo05OqGqr7KIY9lCE"')
+        assert.equal(etag(str5kb, {weak: true}), 'W/"1400-CH0oWYLQGHe/yDhUrMkMg3fIdVU"')
       })
 
       it('should generate a weak ETag for a Buffer', function () {
-        assert.equal(etag(new Buffer(0), {weak: true}), 'W/"0-1B2M2Y8AsgTpgAmY7PhCfg"')
-        assert.equal(etag(new Buffer([1, 2, 3]), {weak: true}), 'W/"3-Uonfc331cyb83SJZevsfrA"')
-        assert.equal(etag(buf5kb, {weak: true}), 'W/"1400-8Kq68cJq4i+5US7RLWrE1g"')
+        assert.equal(etag(new Buffer(0), {weak: true}), 'W/"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"')
+        assert.equal(etag(new Buffer([1, 2, 3]), {weak: true}), 'W/"3-cDeAcZjCKn0rCAc3HXY3eahP388"')
+        assert.equal(etag(buf5kb, {weak: true}), 'W/"1400-CH0oWYLQGHe/yDhUrMkMg3fIdVU"')
       })
 
       it('should generate a weak ETag for fs.Stats', function () {

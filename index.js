@@ -40,12 +40,12 @@ var toString = Object.prototype.toString
 function entitytag (entity) {
   if (entity.length === 0) {
     // fast-path empty
-    return '"0-1B2M2Y8AsgTpgAmY7PhCfg"'
+    return '"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"'
   }
 
   // compute hash of entity
   var hash = crypto
-    .createHash('md5')
+    .createHash('sha1')
     .update(entity, 'utf8')
     .digest('base64')
     .replace(base64PadCharRegExp, '')
