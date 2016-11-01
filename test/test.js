@@ -106,7 +106,7 @@ describe('etag(entity)', function () {
   })
 })
 
-function getbuffer(size) {
+function getbuffer (size) {
   var buffer = new Buffer(size)
   var rng = seedrandom('etag test')
 
@@ -117,7 +117,7 @@ function getbuffer(size) {
   return buffer
 }
 
-function isweak(etag) {
+function isweak (etag) {
   var weak = /^(W\/|)"([^"]+)"/.exec(etag)
 
   if (weak === null) {

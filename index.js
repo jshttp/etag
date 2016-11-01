@@ -1,6 +1,6 @@
 /*!
  * etag
- * Copyright(c) 2014-2015 Douglas Christopher Wilson
+ * Copyright(c) 2014-2016 Douglas Christopher Wilson
  * MIT Licensed
  */
 
@@ -37,7 +37,7 @@ var toString = Object.prototype.toString
  * @private
  */
 
-function entitytag(entity) {
+function entitytag (entity) {
   if (entity.length === 0) {
     // fast-path empty
     return '"0-1B2M2Y8AsgTpgAmY7PhCfg"'
@@ -68,7 +68,7 @@ function entitytag(entity) {
  * @public
  */
 
-function etag(entity, options) {
+function etag (entity, options) {
   if (entity == null) {
     throw new TypeError('argument entity is required')
   }
@@ -102,18 +102,18 @@ function etag(entity, options) {
  * @api private
  */
 
-function isstats(obj) {
+function isstats (obj) {
   // genuine fs.Stats
   if (typeof Stats === 'function' && obj instanceof Stats) {
     return true
   }
 
   // quack quack
-  return obj && typeof obj === 'object'
-    && 'ctime' in obj && toString.call(obj.ctime) === '[object Date]'
-    && 'mtime' in obj && toString.call(obj.mtime) === '[object Date]'
-    && 'ino' in obj && typeof obj.ino === 'number'
-    && 'size' in obj && typeof obj.size === 'number'
+  return obj && typeof obj === 'object' &&
+    'ctime' in obj && toString.call(obj.ctime) === '[object Date]' &&
+    'mtime' in obj && toString.call(obj.mtime) === '[object Date]' &&
+    'ino' in obj && typeof obj.ino === 'number' &&
+    'size' in obj && typeof obj.size === 'number'
 }
 
 /**
@@ -124,7 +124,7 @@ function isstats(obj) {
  * @private
  */
 
-function stattag(stat) {
+function stattag (stat) {
   var mtime = stat.mtime.getTime().toString(16)
   var size = stat.size.toString(16)
 

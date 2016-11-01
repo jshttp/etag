@@ -6,7 +6,6 @@
 var benchmark = require('benchmark')
 var benchmarks = require('beautify-benchmark')
 var fs = require('fs')
-var seedrandom = require('seedrandom')
 
 /**
  * Globals for benchmark.js
@@ -16,7 +15,7 @@ global.etag = require('..')
 global.fakestat = getstat(false)
 global.realstat = getstat(true)
 
-var suite = new benchmark.Suite
+var suite = new benchmark.Suite()
 
 suite.add({
   name: 'real - strong',
@@ -42,21 +41,21 @@ suite.add({
   fn: 'var val = etag(fakestat, {weak: true})'
 })
 
-suite.on('start', function onCycle(event) {
+suite.on('start', function onCycle (event) {
   process.stdout.write('  stat\n\n')
 })
 
-suite.on('cycle', function onCycle(event) {
-  benchmarks.add(event.target);
+suite.on('cycle', function onCycle (event) {
+  benchmarks.add(event.target)
 })
 
-suite.on('complete', function onComplete() {
-  benchmarks.log();
+suite.on('complete', function onComplete () {
+  benchmarks.log()
 })
 
 suite.run({async: false})
 
-function getstat(real) {
+function getstat (real) {
   if (real) {
     return fs.statSync(__filename)
   }

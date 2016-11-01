@@ -15,7 +15,7 @@ global.buffer = getbuffer(100)
 global.etag = require('..')
 global.string = getbuffer(100).toString()
 
-var suite = new benchmark.Suite
+var suite = new benchmark.Suite()
 
 suite.add({
   name: 'buffer - strong',
@@ -41,21 +41,21 @@ suite.add({
   fn: 'var val = etag(string, {weak: true})'
 })
 
-suite.on('start', function onCycle(event) {
+suite.on('start', function onCycle (event) {
   process.stdout.write('  100B body\n\n')
 })
 
-suite.on('cycle', function onCycle(event) {
-  benchmarks.add(event.target);
+suite.on('cycle', function onCycle (event) {
+  benchmarks.add(event.target)
 })
 
-suite.on('complete', function onComplete() {
-  benchmarks.log();
+suite.on('complete', function onComplete () {
+  benchmarks.log()
 })
 
 suite.run({async: false})
 
-function getbuffer(size) {
+function getbuffer (size) {
   var buffer = new Buffer(size)
   var rng = seedrandom('body ' + size)
 
