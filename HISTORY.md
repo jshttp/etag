@@ -1,5 +1,5 @@
-unreleased
-==========
+1.8.0 / 2017-02-18
+==================
 
   * Use SHA1 instead of MD5 for ETag hashing
     - Improves performance for larger entities

@@ -63,7 +63,7 @@ $ npm test
 ```bash
 $ npm run-script bench
 
-> etag@1.7.0-pre bench nodejs-etag
+> etag@1.8.0 bench nodejs-etag
 > node benchmark/index.js
 
   http_parser@2.7.0
