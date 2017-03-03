@@ -52,6 +52,13 @@ Specifies if the generated ETag will include the weak validator mark (that
 is, the leading `W/`). The actual entity tag is the same. The default value
 is `false`, unless the `entity` is `fs.Stats`, in which case it is `true`.
 
+##### etag
+Takes as input string `weak`, `strong` or custom function to be called on data in format
+`function(body){
+    generateEtag(body);
+ }`
+ Etag option has priority over weak.
+
 ## Testing
 
 ```sh

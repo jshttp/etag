@@ -103,6 +103,20 @@ describe('etag(entity)', function () {
         assert.notEqual(etag('plumless', {weak: true}), etag('buckeroo', {weak: true}))
       })
     })
+    
+    describe('etag option', function () {
+        it('etag option should have priority over weak setting', function () {
+            assert.ok(!isweak(etag(fs.statSync(__filename), {etag: 'strong'})))
+        })
+        
+        it('etag option should have priority over weak setting', function () {
+            assert.ok(isweak(etag(fs.statSync(__filename), {etag: 'weak'})))
+        })
+        
+        it('etag option custom function', function () {
+            assert.equal(etag(fs.statSync(__filename), {etag: function(body){return 'hello'}}), 'hello')
+        })
+    })
   })
 })
 
