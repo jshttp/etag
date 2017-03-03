@@ -63,6 +63,36 @@ describe('etag(entity)', function () {
     })
   })
 
+describe('with "quote" option',function(){
+  describe('when "false"',function(){
+    it('should not include extra quotes when entity is a string', function () {
+      assert.equal(etag('beep boop', { quote: false }), '9-fINXV39R1PCo05OqGqr7KIY9lCE')
+      assert.equal(etag('beep boop', { weak: true, quote: false }), 'W/9-fINXV39R1PCo05OqGqr7KIY9lCE')
+    })
+
+    it('should not include extra quotes when entity is an Buffer', function () {
+       assert.equal(etag(new Buffer(0), { quote: false }), '0-2jmj7l5rSw0yVb/vlWAYkK/YBwk')
+        assert.equal(etag(new Buffer([1, 2, 3]), { quote: false }), '3-cDeAcZjCKn0rCAc3HXY3eahP388')
+        assert.equal(etag(buf5kb, { quote: false }), '1400-CH0oWYLQGHe/yDhUrMkMg3fIdVU')
+    })
+
+
+  })
+
+   describe('when "true"',function(){
+    it('should include extra quotes when entity is a string', function () {
+      assert.equal(etag('beep boop', { quote: true }), '"9-fINXV39R1PCo05OqGqr7KIY9lCE"')
+      assert.equal(etag('beep boop', { weak: true, quote: true }), 'W/"9-fINXV39R1PCo05OqGqr7KIY9lCE"')
+    })
+
+    it('should include extra quotes when entity is an Buffer', function () {
+       assert.equal(etag(new Buffer(0), { quote: true }), '"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"')
+        assert.equal(etag(new Buffer([1, 2, 3]), { quote: true }), '"3-cDeAcZjCKn0rCAc3HXY3eahP388"')
+        assert.equal(etag(buf5kb, { quote: true }), '"1400-CH0oWYLQGHe/yDhUrMkMg3fIdVU"')
+    })
+  })
+})
+
   describe('with "weak" option', function () {
     describe('when "false"', function () {
       it('should generate a strong ETag for a string', function () {

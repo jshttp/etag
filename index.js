@@ -37,10 +37,11 @@ var toString = Object.prototype.toString
  * @private
  */
 
-function entitytag (entity) {
+function entitytag(entity, options) {
   if (entity.length === 0) {
     // fast-path empty
-    return '"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"'
+    var empty = '0-2jmj7l5rSw0yVb/vlWAYkK/YBwk';
+    return options.quote ? '"' + empty + '"' : empty;
   }
 
   // compute hash of entity
@@ -54,8 +55,9 @@ function entitytag (entity) {
   var len = typeof entity === 'string'
     ? Buffer.byteLength(entity, 'utf8')
     : entity.length
+  var result = len.toString(16) + '-' + hash;
 
-  return '"' + len.toString(16) + '-' + hash + '"'
+  return options.quote ? '"' + result + '"' : result;
 }
 
 /**
@@ -68,10 +70,15 @@ function entitytag (entity) {
  * @public
  */
 
-function etag (entity, options) {
+function etag(entity, options) {
   if (entity == null) {
     throw new TypeError('argument entity is required')
   }
+
+  options = options || {}
+
+  // set quote to default value of true if not exists
+  options.quote = typeof options.quote === 'boolean' ? options.quote : true;
 
   // support fs.Stats object
   var isStats = isstats(entity)
@@ -86,8 +93,8 @@ function etag (entity, options) {
 
   // generate entity tag
   var tag = isStats
-    ? stattag(entity)
-    : entitytag(entity)
+    ? stattag(entity, options)
+    : entitytag(entity, options)
 
   return weak
     ? 'W/' + tag
@@ -124,9 +131,11 @@ function isstats (obj) {
  * @private
  */
 
-function stattag (stat) {
+function stattag(stat, options) {
   var mtime = stat.mtime.getTime().toString(16)
   var size = stat.size.toString(16)
+  
+  var result = size + '-' + mtime;
 
-  return '"' + size + '-' + mtime + '"'
+  return options.quote ? '"' + result + '"' : result;
 }
