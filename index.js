@@ -37,11 +37,11 @@ var toString = Object.prototype.toString
  * @private
  */
 
-function entitytag(entity, options) {
+function entitytag (entity, options) {
   if (entity.length === 0) {
     // fast-path empty
-    var empty = '0-2jmj7l5rSw0yVb/vlWAYkK/YBwk';
-    return options.quote ? '"' + empty + '"' : empty;
+    var empty = '0-2jmj7l5rSw0yVb/vlWAYkK/YBwk'
+    return options.quote ? '"' + empty + '"' : empty
   }
 
   // compute hash of entity
@@ -55,9 +55,9 @@ function entitytag(entity, options) {
   var len = typeof entity === 'string'
     ? Buffer.byteLength(entity, 'utf8')
     : entity.length
-  var result = len.toString(16) + '-' + hash;
+  var result = len.toString(16) + '-' + hash
 
-  return options.quote ? '"' + result + '"' : result;
+  return options.quote ? '"' + result + '"' : result
 }
 
 /**
@@ -70,7 +70,7 @@ function entitytag(entity, options) {
  * @public
  */
 
-function etag(entity, options) {
+function etag (entity, options) {
   if (entity == null) {
     throw new TypeError('argument entity is required')
   }
@@ -78,7 +78,7 @@ function etag(entity, options) {
   options = options || {}
 
   // set quote to default value of true if not exists
-  options.quote = typeof options.quote === 'boolean' ? options.quote : true;
+  options.quote = typeof options.quote === 'boolean' ? options.quote : true
 
   // support fs.Stats object
   var isStats = isstats(entity)
@@ -131,11 +131,10 @@ function isstats (obj) {
  * @private
  */
 
-function stattag(stat, options) {
+function stattag (stat, options) {
   var mtime = stat.mtime.getTime().toString(16)
   var size = stat.size.toString(16)
-  
-  var result = size + '-' + mtime;
+  var result = size + '-' + mtime
 
-  return options.quote ? '"' + result + '"' : result;
+  return options.quote ? '"' + result + '"' : result
 }

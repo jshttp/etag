@@ -23,7 +23,7 @@ describe('etag(entity)', function () {
 
     it('should work containing Unicode', function () {
       assert.equal(etag('论'), '"3-QkSKq8sXBjHL2tFAZknA2n6LYzM"')
-      assert.equal(etag('论', {weak: true}), 'W/"3-QkSKq8sXBjHL2tFAZknA2n6LYzM"')
+      assert.equal(etag('论', { weak: true }), 'W/"3-QkSKq8sXBjHL2tFAZknA2n6LYzM"')
     })
 
     it('should work for empty string', function () {
@@ -63,74 +63,72 @@ describe('etag(entity)', function () {
     })
   })
 
-describe('with "quote" option',function(){
-  describe('when "false"',function(){
-    it('should not include extra quotes when entity is a string', function () {
-      assert.equal(etag('beep boop', { quote: false }), '9-fINXV39R1PCo05OqGqr7KIY9lCE')
-      assert.equal(etag('beep boop', { weak: true, quote: false }), 'W/9-fINXV39R1PCo05OqGqr7KIY9lCE')
-    })
+  describe('with "quote" option', function () {
+    describe('when "false"', function () {
+      it('should not include extra quotes when entity is a string', function () {
+        assert.equal(etag('beep boop', { quote: false }), '9-fINXV39R1PCo05OqGqr7KIY9lCE')
+        assert.equal(etag('beep boop', { weak: true, quote: false }), 'W/9-fINXV39R1PCo05OqGqr7KIY9lCE')
+      })
 
-    it('should not include extra quotes when entity is an Buffer', function () {
-       assert.equal(etag(new Buffer(0), { quote: false }), '0-2jmj7l5rSw0yVb/vlWAYkK/YBwk')
+      it('should not include extra quotes when entity is an Buffer', function () {
+        assert.equal(etag(new Buffer(0), { quote: false }), '0-2jmj7l5rSw0yVb/vlWAYkK/YBwk')
         assert.equal(etag(new Buffer([1, 2, 3]), { quote: false }), '3-cDeAcZjCKn0rCAc3HXY3eahP388')
         assert.equal(etag(buf5kb, { quote: false }), '1400-CH0oWYLQGHe/yDhUrMkMg3fIdVU')
+      })
     })
 
+    describe('when "true"', function () {
+      it('should include extra quotes when entity is a string', function () {
+        assert.equal(etag('beep boop', { quote: true }), '"9-fINXV39R1PCo05OqGqr7KIY9lCE"')
+        assert.equal(etag('beep boop', { weak: true, quote: true }), 'W/"9-fINXV39R1PCo05OqGqr7KIY9lCE"')
+      })
 
-  })
-
-   describe('when "true"',function(){
-    it('should include extra quotes when entity is a string', function () {
-      assert.equal(etag('beep boop', { quote: true }), '"9-fINXV39R1PCo05OqGqr7KIY9lCE"')
-      assert.equal(etag('beep boop', { weak: true, quote: true }), 'W/"9-fINXV39R1PCo05OqGqr7KIY9lCE"')
-    })
-
-    it('should include extra quotes when entity is an Buffer', function () {
-       assert.equal(etag(new Buffer(0), { quote: true }), '"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"')
+      it('should include extra quotes when entity is an Buffer', function () {
+        assert.equal(etag(new Buffer(0), { quote: true }), '"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"')
         assert.equal(etag(new Buffer([1, 2, 3]), { quote: true }), '"3-cDeAcZjCKn0rCAc3HXY3eahP388"')
         assert.equal(etag(buf5kb, { quote: true }), '"1400-CH0oWYLQGHe/yDhUrMkMg3fIdVU"')
+      })
     })
   })
-})
 
   describe('with "weak" option', function () {
     describe('when "false"', function () {
       it('should generate a strong ETag for a string', function () {
-        assert.equal(etag('', {weak: false}), '"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"')
-        assert.equal(etag('beep boop', {weak: false}), '"9-fINXV39R1PCo05OqGqr7KIY9lCE"')
-        assert.equal(etag(str5kb, {weak: false}), '"1400-CH0oWYLQGHe/yDhUrMkMg3fIdVU"')
+        assert.equal(etag('', { weak: false }), '"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"')
+        assert.equal(etag('beep boop', { weak: false }), '"9-fINXV39R1PCo05OqGqr7KIY9lCE"')
+        assert.equal(etag(str5kb, { weak: false }), '"1400-CH0oWYLQGHe/yDhUrMkMg3fIdVU"')
       })
 
       it('should generate a strong ETag for a Buffer', function () {
-        assert.equal(etag(new Buffer(0), {weak: false}), '"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"')
-        assert.equal(etag(new Buffer([1, 2, 3]), {weak: false}), '"3-cDeAcZjCKn0rCAc3HXY3eahP388"')
-        assert.equal(etag(buf5kb, {weak: false}), '"1400-CH0oWYLQGHe/yDhUrMkMg3fIdVU"')
+        assert.equal(etag(new Buffer(0), { weak: false }), '"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"')
+        assert.equal(etag(new Buffer([1, 2, 3]), { weak: false }), '"3-cDeAcZjCKn0rCAc3HXY3eahP388"')
+        assert.equal(etag(buf5kb, { weak: false }), '"1400-CH0oWYLQGHe/yDhUrMkMg3fIdVU"')
       })
 
       it('should generate a strong ETag for fs.Stats', function () {
-        assert.ok(!isweak(etag(fs.statSync(__filename), {weak: false})))
+        assert.ok(!isweak(etag(fs.statSync(__filename), { weak: false })))
       })
     })
 
     describe('when "true"', function () {
       it('should generate a weak ETag for a string', function () {
-        assert.equal(etag('', {weak: true}), 'W/"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"')
-        assert.equal(etag('beep boop', {weak: true}), 'W/"9-fINXV39R1PCo05OqGqr7KIY9lCE"')
-        assert.equal(etag(str5kb, {weak: true}), 'W/"1400-CH0oWYLQGHe/yDhUrMkMg3fIdVU"')
+        assert.equal(etag('', { weak: true }), 'W/"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"')
+        assert.equal(etag('beep boop', { weak: true }), 'W/"9-fINXV39R1PCo05OqGqr7KIY9lCE"')
+        assert.equal(etag(str5kb, { weak: true }), 'W/"1400-CH0oWYLQGHe/yDhUrMkMg3fIdVU"')
       })
 
       it('should generate a weak ETag for a Buffer', function () {
-        assert.equal(etag(new Buffer(0), {weak: true}), 'W/"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"')
-        assert.equal(etag(new Buffer([1, 2, 3]), {weak: true}), 'W/"3-cDeAcZjCKn0rCAc3HXY3eahP388"')
-        assert.equal(etag(buf5kb, {weak: true}), 'W/"1400-CH0oWYLQGHe/yDhUrMkMg3fIdVU"')
+        assert.equal(etag(new Buffer(0), { weak: true }), 'W/"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"')
+        assert.equal(etag(new Buffer([1, 2, 3]), { weak: true }), 'W/"3-cDeAcZjCKn0rCAc3HXY3eahP388"')
+        assert.equal(etag(buf5kb, { weak: true }), 'W/"1400-CH0oWYLQGHe/yDhUrMkMg3fIdVU"')
       })
 
       it('should generate a weak ETag for fs.Stats', function () {
-        assert.ok(isweak(etag(fs.statSync(__filename), {weak: true})))
+        assert.ok(isweak(etag(fs.statSync(__filename), { weak: true })))
       })
 
       it('should generate different ETags for different strings', function () {
-        assert.notEqual(etag('plumless', {weak: true}), etag('buckeroo', {weak: true}))
+        assert.notEqual(etag('plumless', { weak: true }), etag('buckeroo', { weak: true }))
       })
     })
   })
