@@ -1,3 +1,8 @@
+unreleased
+==========
+
+  * perf: replace regular expression with substring
+
 1.8.0 / 2017-02-18
 ==================
 
