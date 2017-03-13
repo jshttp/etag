@@ -26,7 +26,6 @@ var Stats = require('fs').Stats
  * @private
  */
 
-var base64PadCharRegExp = /=+$/
 var toString = Object.prototype.toString
 
 /**
@@ -48,7 +47,13 @@ function entitytag (entity) {
     .createHash('sha1')
     .update(entity, 'utf8')
     .digest('base64')
-    .replace(base64PadCharRegExp, '')
+
+  var length = hash.length
+
+  // remove = at the end of the hash
+  if (hash.charCodeAt(length - 1) === 61 /* = */) {
+    hash = hash.substring(0, length - 1)
+  }
 
   // compute length of entity
   var len = typeof entity === 'string'
