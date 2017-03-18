@@ -48,11 +48,9 @@ function entitytag (entity) {
     .update(entity, 'utf8')
     .digest('base64')
 
-  var length = hash.length
-
-  // remove = at the end of the hash
-  if (hash.charCodeAt(length - 1) === 61 /* = */) {
-    hash = hash.substring(0, length - 1)
+  // remove all = at the end of the hash
+  while (hash.charCodeAt(hash.length - 1) === 61 /* = */) {
+    hash = hash.substring(0, hash.length - 1)
   }
 
   // compute length of entity
