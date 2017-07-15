@@ -125,8 +125,8 @@ function isstats (obj) {
  */
 
 function stattag (stat) {
-  var mtime = stat.mtime.getTime().toString(16)
+  var mtime = (stat.mtime.getTime() / 1000).toString(16)
   var size = stat.size.toString(16)
 
-  return '"' + size + '-' + mtime + '"'
+  return '"' + mtime + '-' + size + '"'
 }
