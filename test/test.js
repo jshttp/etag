@@ -59,7 +59,7 @@ describe('etag(entity)', function () {
         ino: 0,
         size: 3027
       }
-      assert.equal(etag(fakeStat), 'W/"bd3-14831b399d8"')
+      assert.equal(etag(fakeStat), 'W/"54048817-bd3"')
     })
   })
 
