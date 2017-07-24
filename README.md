@@ -23,7 +23,7 @@ $ npm install etag
 
 ## API
 
-<!-- eslint-disable no-unused-vars --> 
+<!-- eslint-disable no-unused-vars -->
 
 ```js
 var etag = require('etag')
@@ -36,7 +36,7 @@ body of the entity. Strings, `Buffer`s, and `fs.Stats` are accepted. By
 default, a strong ETag is generated except for `fs.Stats`, which will
 generate a weak ETag (this can be overwritten by `options.weak`).
 
-<!-- eslint-disable no-undef --> 
+<!-- eslint-disable no-undef -->
 
 ```js
 res.setHeader('ETag', etag(body))
