@@ -23,7 +23,7 @@
     "eslint-plugin-standard": "2.0.1",
     "istanbul": "0.4.5",
     "mocha": "1.21.5",
-    "seedrandom": "2.4.2"
+    "seedrandom": "2.4.3"
   },
   "files": [
     "LICENSE",
