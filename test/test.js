@@ -1,5 +1,6 @@
 
 var assert = require('assert')
+var Buffer = require('safe-buffer').Buffer
 var etag = require('..')
 var fs = require('fs')
 var seedrandom = require('seedrandom')
@@ -33,11 +34,11 @@ describe('etag(entity)', function () {
 
   describe('when "entity" is a Buffer', function () {
     it('should generate a strong ETag', function () {
-      assert.equal(etag(new Buffer([1, 2, 3])), '"3-cDeAcZjCKn0rCAc3HXY3eahP388"')
+      assert.equal(etag(Buffer.from([1, 2, 3])), '"3-cDeAcZjCKn0rCAc3HXY3eahP388"')
     })
 
     it('should work for empty Buffer', function () {
-      assert.equal(etag(new Buffer(0)), '"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"')
+      assert.equal(etag(Buffer.alloc(0)), '"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"')
     })
   })
 
@@ -72,8 +73,8 @@ describe('etag(entity)', function () {
       })
 
       it('should generate a strong ETag for a Buffer', function () {
-        assert.equal(etag(new Buffer(0), {weak: false}), '"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"')
-        assert.equal(etag(new Buffer([1, 2, 3]), {weak: false}), '"3-cDeAcZjCKn0rCAc3HXY3eahP388"')
+        assert.equal(etag(Buffer.alloc(0), {weak: false}), '"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"')
+        assert.equal(etag(Buffer.from([1, 2, 3]), {weak: false}), '"3-cDeAcZjCKn0rCAc3HXY3eahP388"')
         assert.equal(etag(buf5kb, {weak: false}), '"1400-CH0oWYLQGHe/yDhUrMkMg3fIdVU"')
       })
 
@@ -90,8 +91,8 @@ describe('etag(entity)', function () {
       })
 
       it('should generate a weak ETag for a Buffer', function () {
-        assert.equal(etag(new Buffer(0), {weak: true}), 'W/"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"')
-        assert.equal(etag(new Buffer([1, 2, 3]), {weak: true}), 'W/"3-cDeAcZjCKn0rCAc3HXY3eahP388"')
+        assert.equal(etag(Buffer.alloc(0), {weak: true}), 'W/"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"')
+        assert.equal(etag(Buffer.from([1, 2, 3]), {weak: true}), 'W/"3-cDeAcZjCKn0rCAc3HXY3eahP388"')
         assert.equal(etag(buf5kb, {weak: true}), 'W/"1400-CH0oWYLQGHe/yDhUrMkMg3fIdVU"')
       })
 
@@ -107,7 +108,7 @@ describe('etag(entity)', function () {
 })
 
 function getbuffer (size) {
-  var buffer = new Buffer(size)
+  var buffer = Buffer.alloc(size)
   var rng = seedrandom('etag test')
 
   for (var i = 0; i < buffer.length; i++) {
