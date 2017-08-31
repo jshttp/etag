@@ -5,6 +5,7 @@
 
 var benchmark = require('benchmark')
 var benchmarks = require('beautify-benchmark')
+var Buffer = require('safe-buffer').Buffer
 var seedrandom = require('seedrandom')
 
 /**
@@ -56,7 +57,7 @@ suite.on('complete', function onComplete () {
 suite.run({async: false})
 
 function getbuffer (size) {
-  var buffer = new Buffer(size)
+  var buffer = Buffer.alloc(size)
   var rng = seedrandom('body ' + size)
 
   for (var i = 0; i < buffer.length; i++) {
