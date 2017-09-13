@@ -1,5 +1,5 @@
-unreleased
-==========
+1.8.1 / 2017-09-12
+==================
 
   * perf: replace regular expression with substring
 
