@@ -156,4 +156,4 @@ $ npm run-script bench
 [coveralls-image]: https://img.shields.io/coveralls/jshttp/etag/master.svg
 [coveralls-url]: https://coveralls.io/r/jshttp/etag?branch=master
 [downloads-image]: https://img.shields.io/npm/dm/etag.svg
-[downloads-url]: https://npmjs.org/package/etag
+[downloads-url]: https://npmcharts.com/compare/etag?minimal=true
