@@ -1,8 +1,8 @@
 # etag
 
-[![NPM Version][npm-image]][npm-url]
-[![NPM Downloads][downloads-image]][downloads-url]
-[![Node.js Version][node-version-image]][node-version-url]
+[![NPM Version][npm-version-image]][npm-url]
+[![NPM Downloads][npm-downloads-image]][npm-url]
+[![Node.js Version][node-image]][node-url]
 [![Build Status][travis-image]][travis-url]
 [![Test Coverage][coveralls-image]][coveralls-url]
 
@@ -147,13 +147,12 @@ $ npm run-script bench
 
 [MIT](LICENSE)
 
-[npm-image]: https://img.shields.io/npm/v/etag.svg
-[npm-url]: https://npmjs.org/package/etag
-[node-version-image]: https://img.shields.io/node/v/etag.svg
-[node-version-url]: https://nodejs.org/en/download/
-[travis-image]: https://img.shields.io/travis/jshttp/etag/master.svg
-[travis-url]: https://travis-ci.org/jshttp/etag
-[coveralls-image]: https://img.shields.io/coveralls/jshttp/etag/master.svg
+[coveralls-image]: https://badgen.net/coveralls/c/github/jshttp/etag/master
 [coveralls-url]: https://coveralls.io/r/jshttp/etag?branch=master
-[downloads-image]: https://img.shields.io/npm/dm/etag.svg
-[downloads-url]: https://npmcharts.com/compare/etag?minimal=true
+[node-image]: https://badgen.net/npm/node/etag
+[node-url]: https://nodejs.org/en/download
+[npm-downloads-image]: https://badgen.net/npm/dm/etag
+[npm-url]: https://npmjs.org/package/etag
+[npm-version-image]: https://badgen.net/npm/v/etag
+[travis-image]: https://badgen.net/travis/jshttp/etag/master
+[travis-url]: https://travis-ci.org/jshttp/etag
