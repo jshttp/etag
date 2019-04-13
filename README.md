@@ -145,7 +145,7 @@ $ npm run-script bench
 
 ## License
 
-[MIT](LICENSE)
+This library has been licensed under the [MIT](LICENSE).
 
 [coveralls-image]: https://badgen.net/coveralls/c/github/jshttp/etag/master
 [coveralls-url]: https://coveralls.io/r/jshttp/etag?branch=master
