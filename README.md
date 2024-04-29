@@ -3,8 +3,8 @@
 [![NPM Version][npm-version-image]][npm-url]
 [![NPM Downloads][npm-downloads-image]][npm-url]
 [![Node.js Version][node-image]][node-url]
-[![Build Status][travis-image]][travis-url]
-[![Test Coverage][coveralls-image]][coveralls-url]
+[![Build Status][ci-image]][ci-url]
+[![Coverage Status][coveralls-image]][coveralls-url]
 
 Create simple HTTP ETags
 
@@ -147,6 +147,8 @@ $ npm run-script bench
 
 [MIT](LICENSE)
 
+[ci-image]: https://badgen.net/github/checks/jshttp/etag/master?label=ci
+[ci-url]: https://github.com/jshttp/etag/actions/workflows/ci.yml
 [coveralls-image]: https://badgen.net/coveralls/c/github/jshttp/etag/master
 [coveralls-url]: https://coveralls.io/r/jshttp/etag?branch=master
 [node-image]: https://badgen.net/npm/node/etag
@@ -154,5 +156,3 @@ $ npm run-script bench
 [npm-downloads-image]: https://badgen.net/npm/dm/etag
 [npm-url]: https://npmjs.org/package/etag
 [npm-version-image]: https://badgen.net/npm/v/etag
-[travis-image]: https://badgen.net/travis/jshttp/etag/master
-[travis-url]: https://travis-ci.org/jshttp/etag
