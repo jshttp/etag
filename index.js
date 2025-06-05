@@ -50,9 +50,7 @@ function entitytag (entity) {
     .substring(0, 27)
 
   // compute length of entity
-  var len = typeof entity === 'string'
-    ? Buffer.byteLength(entity, 'utf8')
-    : entity.length
+  var len = Buffer.byteLength(entity)
 
   return '"' + len.toString(16) + '-' + hash + '"'
 }
