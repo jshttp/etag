@@ -4,7 +4,7 @@
   "version": "1.8.1",
   "contributors": [
     "Douglas Christopher Wilson <doug@somethingdoug.com>",
-    "David Björklund <david.bjorklund@gmail.com>"
+    "David Bj\u00f6rklund <david.bjorklund@gmail.com>"
   ],
   "license": "MIT",
   "keywords": [
@@ -47,5 +47,9 @@
     "test": "mocha --reporter spec --bail --check-leaks test/",
     "test-ci": "nyc --reporter=lcov --reporter=text npm test",
     "test-cov": "nyc --reporter=html --reporter=text npm test"
+  },
+  "homepage": "https://github.com/jshttp/etag",
+  "bugs": {
+    "url": "https://github.com/jshttp/etag/issues"
   }
 }
