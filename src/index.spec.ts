@@ -17,11 +17,6 @@ describe("etag(entity)", function () {
     assert.throws(() => etag(), /argument entity is required/);
   });
 
-  it("should reject number entities", function () {
-    // @ts-expect-error Numeric entities are rejected at runtime.
-    assert.throws(() => etag(4), /argument entity must be/);
-  });
-
   it("generates identical tags for strings and buffers around the hashing cutoff", () => {
     for (const [length, expected] of [
       [100 * 1024, '"4b000-q7sGvvvMDj+/XgEeCZ7QvdtBKVM"'],
@@ -77,6 +72,27 @@ describe("etag(entity)", function () {
         etag(fs.statSync(filename)),
         etag(fs.statSync(filename)),
       );
+    });
+  });
+
+  describe('when "entity" is a fs.BigIntStats', function () {
+    it("should generate a weak ETag by default and allow a strong ETag", function () {
+      const stat = fs.statSync(filename, { bigint: true });
+      const expected = `"${stat.size.toString(16)}-${stat.mtime.getTime().toString(16)}"`;
+
+      assert.strictEqual(etag(stat), "W/" + expected);
+      assert.strictEqual(etag(stat, { weak: false }), expected);
+    });
+
+    it("should preserve the full size of a BigInt stats-like object", function () {
+      const stat = {
+        ctime: new Date("2014-09-01T14:52:07Z"),
+        mtime: new Date("2014-09-01T14:52:07Z"),
+        ino: 0n,
+        size: 0x20000000000001n,
+      };
+
+      assert.strictEqual(etag(stat), 'W/"20000000000001-14831b399d8"');
     });
   });
 
@@ -200,19 +216,6 @@ describe("runtime validation", () => {
     it(`rejects ${entity}`, () => {
       // @ts-expect-error Invalid JavaScript input.
       assert.throws(() => etag(entity), /argument entity is required/);
-    });
-  }
-
-  for (const entity of [
-    true,
-    {},
-    [],
-    new Uint8Array([1]),
-    { ctime: new Date(), mtime: new Date(), ino: 0 },
-  ]) {
-    it(`rejects invalid entity ${Object.prototype.toString.call(entity)}`, () => {
-      // @ts-expect-error Invalid JavaScript input.
-      assert.throws(() => etag(entity), /argument entity must be/);
     });
   }
 

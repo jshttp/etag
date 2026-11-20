@@ -26,7 +26,7 @@ import { etag } from "etag";
 
 ### etag(entity, [options])
 
-Generate a strong ETag for the given entity. This should be the complete body of the entity. Strings, `Buffer`s, and `fs.Stats` are accepted. By default, a strong ETag is generated except for `fs.Stats`, which will generate a weak ETag (this can be overwritten by `options.weak`).
+Generate an ETag for a string, `Buffer`, or file stats object. Pass the complete body when using a string or `Buffer`. File stats can come from `fs.stat` or `fs.statSync`, with or without `{ bigint: true }`. Strings and buffers generate strong ETags by default. File stats generate weak ETags by default. Use `options.weak` to override the default.
 
 ```js
 res.setHeader("ETag", etag(body));
@@ -38,7 +38,7 @@ res.setHeader("ETag", etag(body));
 
 ##### weak
 
-Specifies if the generated ETag will include the weak validator mark (that is, the leading `W/`). The actual entity tag is the same. The default value is `false`, unless the `entity` is `fs.Stats`, in which case it is `true`.
+Specifies whether the generated ETag includes the weak validator mark (the leading `W/`). The actual entity tag is the same. The default is `true` for file stats and `false` for strings and buffers.
 
 ## License
 
