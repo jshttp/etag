@@ -19,8 +19,8 @@ describe("etag(entity)", function () {
 
   it("generates identical tags for strings and buffers around the hashing cutoff", () => {
     for (const [length, expected] of [
-      [100 * 1024, '"4b000-q7sGvvvMDj+/XgEeCZ7QvdtBKVM"'],
-      [100 * 1024 + 1, '"4b003-ePCNdQIk7ZliVhcOGjG81mvaTtY"'],
+      [100 * 1024, '"9c00~OY4RezC_tF67Vh3XNOuWnQe6tz9JnPGOj8VzKJvOSWw"'],
+      [100 * 1024 + 1, '"9c03~JFHYAYfsvpSdSOmMOhcgQB0UG37LT8Vp9Ckwm2UPl98"'],
     ] as const) {
       const entity = "论".repeat(length);
       assert.equal(etag(entity), expected);
@@ -30,19 +30,28 @@ describe("etag(entity)", function () {
 
   describe('when "entity" is a string', function () {
     it("should generate a strong ETag", function () {
-      assert.strictEqual(etag("beep boop"), '"9-fINXV39R1PCo05OqGqr7KIY9lCE"');
+      assert.strictEqual(
+        etag("beep boop"),
+        '"9~kOpojiddWAVnMlAySStZe8dyIcYkk-djMLhd3aGR73w"',
+      );
     });
 
     it("should work containing Unicode", function () {
-      assert.strictEqual(etag("论"), '"3-QkSKq8sXBjHL2tFAZknA2n6LYzM"');
+      assert.strictEqual(
+        etag("论"),
+        '"3~x8ziQE-YlDcTOdm8SeUCOgGhK60yyXFdum_Oy6-gH-g"',
+      );
       assert.strictEqual(
         etag("论", { weak: true }),
-        'W/"3-QkSKq8sXBjHL2tFAZknA2n6LYzM"',
+        'W/"3~x8ziQE-YlDcTOdm8SeUCOgGhK60yyXFdum_Oy6-gH-g"',
       );
     });
 
     it("should work for empty string", function () {
-      assert.strictEqual(etag(""), '"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"');
+      assert.strictEqual(
+        etag(""),
+        '"0~47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU"',
+      );
     });
   });
 
@@ -50,14 +59,14 @@ describe("etag(entity)", function () {
     it("should generate a strong ETag", function () {
       assert.strictEqual(
         etag(Buffer.from([1, 2, 3])),
-        '"3-cDeAcZjCKn0rCAc3HXY3eahP388"',
+        '"3~A5BYxvLAy0ksUzsKTRTvd8wPeKvMztUofYShogEc-4E"',
       );
     });
 
     it("should work for empty Buffer", function () {
       assert.strictEqual(
         etag(Buffer.alloc(0)),
-        '"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"',
+        '"0~47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU"',
       );
     });
   });
@@ -78,7 +87,7 @@ describe("etag(entity)", function () {
   describe('when "entity" is a fs.BigIntStats', function () {
     it("should generate a weak ETag by default and allow a strong ETag", function () {
       const stat = fs.statSync(filename, { bigint: true });
-      const expected = `"${stat.size.toString(16)}-${stat.mtime.getTime().toString(16)}"`;
+      const expected = `"${stat.size.toString(32)}~${stat.mtime.getTime().toString(32)}"`;
 
       assert.strictEqual(etag(stat), "W/" + expected);
       assert.strictEqual(etag(stat, { weak: false }), expected);
@@ -92,7 +101,7 @@ describe("etag(entity)", function () {
         size: 0x20000000000001n,
       };
 
-      assert.strictEqual(etag(stat), 'W/"20000000000001-14831b399d8"');
+      assert.strictEqual(etag(stat), 'W/"80000000001~190or76eo"');
     });
   });
 
@@ -104,7 +113,27 @@ describe("etag(entity)", function () {
         ino: 0,
         size: 3027,
       };
-      assert.strictEqual(etag(fakeStat), 'W/"bd3-14831b399d8"');
+      assert.strictEqual(etag(fakeStat), 'W/"2uj~190or76eo"');
+    });
+
+    it("encodes small and large timestamps in base 32", function () {
+      for (const [ms, expected] of [
+        [-2147483649, "-2000001"],
+        [-2147483648, "-2000000"],
+        [0, "0"],
+        [2147483647, "1vvvvvv"],
+        [2147483648, "2000000"],
+        [8640000000000000, "7li131do000"],
+        [NaN, "NaN"],
+      ] as const) {
+        const stat = {
+          ctime: new Date(0),
+          mtime: new Date(ms),
+          ino: 0,
+          size: 1,
+        };
+        assert.strictEqual(etag(stat), `W/"1~${expected}"`);
+      }
     });
   });
 
@@ -113,30 +142,30 @@ describe("etag(entity)", function () {
       it("should generate a strong ETag for a string", function () {
         assert.strictEqual(
           etag("", { weak: false }),
-          '"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"',
+          '"0~47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU"',
         );
         assert.strictEqual(
           etag("beep boop", { weak: false }),
-          '"9-fINXV39R1PCo05OqGqr7KIY9lCE"',
+          '"9~kOpojiddWAVnMlAySStZe8dyIcYkk-djMLhd3aGR73w"',
         );
         assert.strictEqual(
           etag(str5kb, { weak: false }),
-          '"1400-CH0oWYLQGHe/yDhUrMkMg3fIdVU"',
+          '"500~NurJBK5RLPWlzymFO-3X-dl7_ZiInK295r1S2yM2TmY"',
         );
       });
 
       it("should generate a strong ETag for a Buffer", function () {
         assert.strictEqual(
           etag(Buffer.alloc(0), { weak: false }),
-          '"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"',
+          '"0~47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU"',
         );
         assert.strictEqual(
           etag(Buffer.from([1, 2, 3]), { weak: false }),
-          '"3-cDeAcZjCKn0rCAc3HXY3eahP388"',
+          '"3~A5BYxvLAy0ksUzsKTRTvd8wPeKvMztUofYShogEc-4E"',
         );
         assert.strictEqual(
           etag(buf5kb, { weak: false }),
-          '"1400-CH0oWYLQGHe/yDhUrMkMg3fIdVU"',
+          '"500~NurJBK5RLPWlzymFO-3X-dl7_ZiInK295r1S2yM2TmY"',
         );
       });
 
@@ -149,30 +178,30 @@ describe("etag(entity)", function () {
       it("should generate a weak ETag for a string", function () {
         assert.strictEqual(
           etag("", { weak: true }),
-          'W/"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"',
+          'W/"0~47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU"',
         );
         assert.strictEqual(
           etag("beep boop", { weak: true }),
-          'W/"9-fINXV39R1PCo05OqGqr7KIY9lCE"',
+          'W/"9~kOpojiddWAVnMlAySStZe8dyIcYkk-djMLhd3aGR73w"',
         );
         assert.strictEqual(
           etag(str5kb, { weak: true }),
-          'W/"1400-CH0oWYLQGHe/yDhUrMkMg3fIdVU"',
+          'W/"500~NurJBK5RLPWlzymFO-3X-dl7_ZiInK295r1S2yM2TmY"',
         );
       });
 
       it("should generate a weak ETag for a Buffer", function () {
         assert.strictEqual(
           etag(Buffer.alloc(0), { weak: true }),
-          'W/"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"',
+          'W/"0~47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU"',
         );
         assert.strictEqual(
           etag(Buffer.from([1, 2, 3]), { weak: true }),
-          'W/"3-cDeAcZjCKn0rCAc3HXY3eahP388"',
+          'W/"3~A5BYxvLAy0ksUzsKTRTvd8wPeKvMztUofYShogEc-4E"',
         );
         assert.strictEqual(
           etag(buf5kb, { weak: true }),
-          'W/"1400-CH0oWYLQGHe/yDhUrMkMg3fIdVU"',
+          'W/"500~NurJBK5RLPWlzymFO-3X-dl7_ZiInK295r1S2yM2TmY"',
         );
       });
 
@@ -232,6 +261,6 @@ describe("runtime validation", () => {
     const stat = runInNewContext(
       '({ ctime: new Date("2014-09-01T14:52:07Z"), mtime: new Date("2014-09-01T14:52:07Z"), ino: 0, size: 3027 })',
     );
-    assert.equal(etag(stat), 'W/"bd3-14831b399d8"');
+    assert.equal(etag(stat), 'W/"2uj~190or76eo"');
   });
 });
