@@ -26,7 +26,7 @@ import { etag } from "etag";
 
 ### etag(entity, [options])
 
-Generate an ETag for a string, `Buffer`, or file stats object. Pass the complete body when using a string or `Buffer`. File stats can come from `fs.stat` or `fs.statSync`, with or without `{ bigint: true }`. Strings and buffers generate strong ETags by default. File stats generate weak ETags by default. Use `options.weak` to override the default.
+Generate an ETag for a string, ArrayBuffer view (a typed array such as `Buffer`, or a `DataView`), or file stats object. Pass the complete body when using a string or view. Only the bytes within the view are hashed. File stats can come from `fs.stat` or `fs.statSync`, with or without `{ bigint: true }`. Strings and views generate strong ETags by default. File stats generate weak ETags by default. Use `options.weak` to override the default.
 
 ```js
 res.setHeader("ETag", etag(body));
@@ -38,7 +38,7 @@ res.setHeader("ETag", etag(body));
 
 ##### weak
 
-Specifies whether the generated ETag includes the weak validator mark (the leading `W/`). The actual entity tag is the same. The default is `true` for file stats and `false` for strings and buffers.
+Specifies whether the generated ETag includes the weak validator mark (the leading `W/`). The actual entity tag is the same. The default is `true` for file stats and `false` for strings and ArrayBuffer views.
 
 ## License
 
