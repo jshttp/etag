@@ -28,6 +28,33 @@ var Stats = require('fs').Stats
 
 var toString = Object.prototype.toString
 
+// Max size for crypto.hash - beyond this benefits drop to zero or below
+var ONESHOT_MAX_LENGTH = 100 * 1024
+
+/**
+ * Compute the base64 SHA1 hash of an entity.
+ *
+ * `crypto.hash` is a faster one-shot API, available since Node.js 20.12.0.
+ *
+ * @param {Buffer|string} entity
+ * @return {string}
+ * @private
+ */
+
+var sha1base64 = typeof crypto.hash === 'function'
+  ? oneshothash
+  : streaminghash
+
+function oneshothash (entity) {
+  return entity.length <= ONESHOT_MAX_LENGTH
+    ? crypto.hash('sha1', entity, 'base64')
+    : streaminghash(entity)
+}
+
+function streaminghash (entity) {
+  return crypto.createHash('sha1').update(entity, 'utf8').digest('base64')
+}
+
 /**
  * Generate an entity tag.
  *
@@ -43,11 +70,7 @@ function entitytag (entity) {
   }
 
   // compute hash of entity
-  var hash = crypto
-    .createHash('sha1')
-    .update(entity, 'utf8')
-    .digest('base64')
-    .substring(0, 27)
+  var hash = sha1base64(entity).substring(0, 27)
 
   // compute length of entity
   var len = typeof entity === 'string'
