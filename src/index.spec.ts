@@ -2,14 +2,13 @@ import assert from "node:assert/strict";
 import { Buffer } from "node:buffer";
 import * as fs from "node:fs";
 import { fileURLToPath } from "node:url";
-import seedrandom from "seedrandom";
 import { describe, it } from "vitest";
 import { etag } from "./index.js";
 
 const filename = fileURLToPath(import.meta.url);
 
-const buf5kb = getbuffer(5 * 1024);
-const str5kb = getbuffer(5 * 1024).toString();
+const str5kb = "beep boop\n".repeat(512);
+const buf5kb = Buffer.from(str5kb);
 
 describe("etag(entity)", function () {
   it("should require an entity", function () {
@@ -150,7 +149,7 @@ describe("etag(entity)", function () {
         );
         assert.strictEqual(
           etag(str5kb, { weak: false }),
-          '"500~NurJBK5RLPWlzymFO-3X-dl7_ZiInK295r1S2yM2TmY"',
+          '"500~5LnbD3U9_YHDcyuPVi5-ICAvez7H2P0q8c7w8MgyK1c"',
         );
       });
 
@@ -165,7 +164,7 @@ describe("etag(entity)", function () {
         );
         assert.strictEqual(
           etag(buf5kb, { weak: false }),
-          '"500~NurJBK5RLPWlzymFO-3X-dl7_ZiInK295r1S2yM2TmY"',
+          '"500~5LnbD3U9_YHDcyuPVi5-ICAvez7H2P0q8c7w8MgyK1c"',
         );
       });
 
@@ -186,7 +185,7 @@ describe("etag(entity)", function () {
         );
         assert.strictEqual(
           etag(str5kb, { weak: true }),
-          'W/"500~NurJBK5RLPWlzymFO-3X-dl7_ZiInK295r1S2yM2TmY"',
+          'W/"500~5LnbD3U9_YHDcyuPVi5-ICAvez7H2P0q8c7w8MgyK1c"',
         );
       });
 
@@ -201,7 +200,7 @@ describe("etag(entity)", function () {
         );
         assert.strictEqual(
           etag(buf5kb, { weak: true }),
-          'W/"500~NurJBK5RLPWlzymFO-3X-dl7_ZiInK295r1S2yM2TmY"',
+          'W/"500~5LnbD3U9_YHDcyuPVi5-ICAvez7H2P0q8c7w8MgyK1c"',
         );
       });
 
@@ -218,17 +217,6 @@ describe("etag(entity)", function () {
     });
   });
 });
-
-function getbuffer(size: number) {
-  const buffer = Buffer.alloc(size);
-  const rng = seedrandom("etag test");
-
-  for (let i = 0; i < buffer.length; i++) {
-    buffer[i] = (rng() * 94 + 32) | 0;
-  }
-
-  return buffer;
-}
 
 function isweak(etag: string) {
   const weak = /^(W\/|)"([^"]+)"/.exec(etag);
