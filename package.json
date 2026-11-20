@@ -1,12 +1,7 @@
 {
   "name": "etag",
-  "description": "Create simple HTTP ETags",
   "version": "1.8.1",
-  "contributors": [
-    "Douglas Christopher Wilson <doug@somethingdoug.com>",
-    "David Björklund <david.bjorklund@gmail.com>"
-  ],
-  "license": "MIT",
+  "description": "Create simple HTTP ETags",
   "keywords": [
     "etag",
     "http",
@@ -17,35 +12,58 @@
     "type": "opencollective",
     "url": "https://opencollective.com/express"
   },
-  "devDependencies": {
-    "beautify-benchmark": "0.2.4",
-    "benchmark": "2.1.4",
-    "eslint": "5.6.0",
-    "eslint-config-standard": "12.0.0",
-    "eslint-plugin-import": "2.14.0",
-    "eslint-plugin-markdown": "1.0.0-beta.6",
-    "eslint-plugin-node": "7.0.1",
-    "eslint-plugin-promise": "4.0.1",
-    "eslint-plugin-standard": "4.0.0",
-    "mocha": "10.2.0",
-    "nyc": "15.1.0",
-    "safe-buffer": "5.1.2",
-    "seedrandom": "2.4.4"
-  },
-  "files": [
-    "LICENSE",
-    "HISTORY.md",
-    "README.md",
-    "index.js"
+  "license": "MIT",
+  "contributors": [
+    "Douglas Christopher Wilson <doug@somethingdoug.com>",
+    "David Björklund <david.bjorklund@gmail.com>"
   ],
-  "engines": {
-    "node": ">= 0.6"
-  },
+  "type": "module",
+  "exports": "./dist/index.js",
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "files": [
+    "dist/"
+  ],
   "scripts": {
-    "bench": "node benchmark/index.js",
-    "lint": "eslint --plugin markdown --ext js,md .",
-    "test": "mocha --reporter spec --bail --check-leaks test/",
-    "test-ci": "nyc --reporter=lcov --reporter=text npm test",
-    "test-cov": "nyc --reporter=html --reporter=text npm test"
+    "bench": "vitest bench",
+    "build": "ts-scripts build",
+    "format": "ts-scripts format",
+    "prepare": "ts-scripts install && npm run build",
+    "size": "size-limit",
+    "specs": "ts-scripts specs",
+    "test": "ts-scripts test && npm run size"
+  },
+  "devDependencies": {
+    "@borderless/ts-scripts": "^0.15.0",
+    "@size-limit/preset-small-lib": "^14.3.0",
+    "@types/node": "^22.20.5",
+    "@types/seedrandom": "^3.0.8",
+    "@vitest/coverage-v8": "^5.1.1",
+    "seedrandom": "^3.0.5",
+    "size-limit": "^14.3.0",
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.1"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "size-limit": [
+    {
+      "path": "dist/index.js",
+      "limit": "700 B",
+      "ignore": [
+        "node:buffer",
+        "node:crypto",
+        "node:fs"
+      ]
+    }
+  ],
+  "ts-scripts": {
+    "dist": [
+      "dist"
+    ],
+    "project": [
+      "tsconfig.build.json"
+    ]
   }
 }
