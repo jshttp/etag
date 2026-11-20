@@ -17,16 +17,18 @@ describe("etag(entity)", function () {
     assert.throws(() => etag(), /argument entity is required/);
   });
 
-  it("generates identical tags for strings and buffers around the hashing cutoff", () => {
-    for (const [length, expected] of [
-      [100 * 1024, '"9c00~OY4RezC_tF67Vh3XNOuWnQe6tz9JnPGOj8VzKJvOSWw"'],
-      [100 * 1024 + 1, '"9c03~JFHYAYfsvpSdSOmMOhcgQB0UG37LT8Vp9Ckwm2UPl98"'],
-    ] as const) {
-      const entity = "论".repeat(length);
+  it.each([
+    [100 * 1024, '"3400~DaQsX3VThEpAXzlxC1q14A1asMDRZk-IkxobmY6XW1k"'],
+    [100 * 1024 + 1, '"3401~vF2SNLRIR6Dy8QjWQez8H0mMj-q75R22XQvgrlwkoDI"'],
+  ] as const)(
+    "generates identical tags for a Unicode string and Buffer of %i bytes",
+    (length, expected) => {
+      const entity =
+        "论".repeat(Math.floor(length / 3)) + "x".repeat(length % 3);
       assert.equal(etag(entity), expected);
       assert.equal(etag(Buffer.from(entity)), expected);
-    }
-  });
+    },
+  );
 
   describe('when "entity" is a string', function () {
     it("should generate a strong ETag", function () {
@@ -69,6 +71,39 @@ describe("etag(entity)", function () {
         '"0~47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU"',
       );
     });
+  });
+
+  describe('when "entity" is an ArrayBuffer view', function () {
+    it("generates the same tag as a Buffer with the same bytes", function () {
+      const bytes = Uint8Array.of(1, 2, 3);
+      const expected = etag(Buffer.from(bytes));
+
+      assert.strictEqual(etag(bytes), expected);
+      assert.strictEqual(etag(bytes, { weak: true }), "W/" + expected);
+    });
+
+    it.each([0, 3, (100 * 1024) / Uint16Array.BYTES_PER_ELEMENT + 1])(
+      "hashes only the view bytes for %i Uint16Array elements",
+      function (length) {
+        const backing = new Uint16Array(length + 2).fill(0xabcd);
+        const view = backing.subarray(1, length + 1).fill(0x1234);
+        const bytes = Buffer.from(
+          view.buffer,
+          view.byteOffset,
+          view.byteLength,
+        );
+
+        const dataView = new DataView(
+          view.buffer,
+          view.byteOffset,
+          view.byteLength,
+        );
+        const expected = etag(bytes);
+
+        assert.strictEqual(etag(view), expected);
+        assert.strictEqual(etag(dataView), expected);
+      },
+    );
   });
 
   describe('when "entity" is a fs.Stats', function () {
