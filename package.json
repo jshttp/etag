@@ -53,8 +53,7 @@
       "limit": "700 B",
       "ignore": [
         "node:buffer",
-        "node:crypto",
-        "node:fs"
+        "node:crypto"
       ]
     }
   ],

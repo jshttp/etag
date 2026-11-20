@@ -6,7 +6,6 @@
 
 import { Buffer } from "node:buffer";
 import { createHash, hash } from "node:crypto";
-import { Stats } from "node:fs";
 
 // Above this size, one-shot hashing no longer improves performance.
 const ONESHOT_MAX_LENGTH = 100 * 1024;
@@ -17,38 +16,28 @@ export interface Options {
   weak?: boolean;
 }
 
-/** The fields required to recognize a file stats object. */
-export interface StatsLike {
+/** Structural type for file stats. */
+export interface StatsLike<T extends number | bigint> {
   ctime: Date;
   mtime: Date;
-  ino: number;
-  size: number;
+  ino: T;
+  size: T;
 }
+
+export type FileStats = StatsLike<number> | StatsLike<bigint>;
 
 /** Create an ETag for a string, buffer, or file stats object. */
 export function etag(
-  entity: string | Buffer | StatsLike,
+  entity: string | Buffer | FileStats,
   options?: Options,
 ): string {
   if (entity == null) {
     throw new TypeError("argument entity is required");
   }
 
-  const isStats = isstats(entity);
-  const weak =
-    options && typeof options.weak === "boolean" ? options.weak : isStats;
-
-  let tag: string;
-  if (isStats) {
-    tag = stattag(entity);
-  } else {
-    if (typeof entity !== "string" && !Buffer.isBuffer(entity)) {
-      throw new TypeError(
-        "argument entity must be string, Buffer, or fs.Stats",
-      );
-    }
-    tag = entitytag(entity);
-  }
+  const isBody = typeof entity === "string" || Buffer.isBuffer(entity);
+  const weak = typeof options?.weak === "boolean" ? options.weak : !isBody;
+  const tag = isBody ? entitytag(entity) : stattag(entity);
 
   return weak ? "W/" + tag : tag;
 }
@@ -71,26 +60,8 @@ function entitytag(entity: string | Buffer): string {
   return '"' + len.toString(16) + "-" + digest.substring(0, 27) + '"';
 }
 
-/** Recognize genuine and structurally compatible file stats. */
-function isstats(obj: unknown): obj is StatsLike {
-  if (obj instanceof Stats) return true;
-
-  return (
-    obj !== null &&
-    typeof obj === "object" &&
-    "ctime" in obj &&
-    Object.prototype.toString.call(obj.ctime) === "[object Date]" &&
-    "mtime" in obj &&
-    Object.prototype.toString.call(obj.mtime) === "[object Date]" &&
-    "ino" in obj &&
-    typeof obj.ino === "number" &&
-    "size" in obj &&
-    typeof obj.size === "number"
-  );
-}
-
 /** Generate a tag from the file size and modification time. */
-function stattag(stat: StatsLike): string {
+function stattag(stat: FileStats): string {
   const mtime = stat.mtime.getTime().toString(16);
   const size = stat.size.toString(16);
   return '"' + size + "-" + mtime + '"';
