@@ -31,10 +31,6 @@ export function etag(
   entity: string | NodeJS.ArrayBufferView | FileStats,
   options?: Options,
 ): string {
-  if (entity == null) {
-    throw new TypeError("argument entity is required");
-  }
-
   const isBody = typeof entity === "string" || ArrayBuffer.isView(entity);
   const weak = typeof options?.weak === "boolean" ? options.weak : !isBody;
   const tag = isBody ? entitytag(entity) : stattag(entity);

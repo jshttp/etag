@@ -11,11 +11,6 @@ const str5kb = "beep boop\n".repeat(512);
 const buf5kb = Buffer.from(str5kb);
 
 describe("etag(entity)", function () {
-  it("should require an entity", function () {
-    // @ts-expect-error Missing entity is rejected at runtime.
-    assert.throws(() => etag(), /argument entity is required/);
-  });
-
   it.each([
     [100 * 1024, '"3400~DaQsX3VThEpAXzlxC1q14A1asMDRZk-IkxobmY6XW1k"'],
     [100 * 1024 + 1, '"3401~vF2SNLRIR6Dy8QjWQez8H0mMj-q75R22XQvgrlwkoDI"'],
@@ -264,10 +259,10 @@ function isweak(etag: string) {
 }
 
 describe("runtime validation", () => {
-  for (const entity of [undefined, null]) {
-    it(`rejects ${entity}`, () => {
+  for (const entity of [undefined, null, 123, {}, [], BigInt(123)]) {
+    it(`throws on ${entity}`, () => {
       // @ts-expect-error Invalid JavaScript input.
-      assert.throws(() => etag(entity), /argument entity is required/);
+      assert.throws(() => etag(entity), TypeError);
     });
   }
 
